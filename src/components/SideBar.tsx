@@ -11,26 +11,28 @@ const SideBar = () => {
     <nav>
       <div className="menu">
         <button>
-          <img src={logo} alt="" />
+          <img src={logo} alt="logo" />
         </button>
         <div className="btn-row">
           <button>
-            <img src={main} alt="" />
+            <img src={main} alt="main" />
           </button>
           <button>
-            <img src={film} alt="" />
+            <img src={film} alt="film" />
           </button>
           <button>
-            <img src={tv} alt="" />
+            <img src={tv} alt="tv" />
           </button>
           <button>
-            <img src={marked} alt="" />
+            <img src={marked} alt="marked" />
           </button>
         </div>
       </div>
 
       <div className="user">
-        <i className="fa-solid fa-circle-user"></i>
+        <button>
+          <i className="fa-solid fa-circle-user"></i>
+        </button>
       </div>
     </nav>
   );
