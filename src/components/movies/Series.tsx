@@ -22,8 +22,6 @@ const Series = () => {
     getMovie();
   }, []);
 
-  console.log(movieList);
-
   return (
     <section id="tranding" className="poster-card">
       <div className="custom-navigation">
