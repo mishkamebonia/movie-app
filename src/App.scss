@@ -1,0 +1,21 @@
+@import "./scss/colors.scss";
+
+.main-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 36px;
+  margin: 32px;
+}
+
+nav {
+  background: $semiDarkBlue;
+  width: 96px;
+  height: 900px;
+  border-radius: 20px;
+}
+
+main {
+  background: green;
+  flex: 1;
+}
