@@ -1,0 +1,28 @@
+@import "../scss/colors.scss";
+
+.search-input {
+  display: flex;
+  align-items: start;
+  gap: 24px;
+  height: 50px;
+  margin: 33px 0 35px;
+
+  label {
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  input {
+    width: 484px;
+    font-size: 24px;
+
+    &:focus {
+      border-bottom: 1px solid $pureWhite;
+      padding-bottom: 15px;
+    }
+
+    &::placeholder {
+      opacity: 0.4979;
+    }
+  }
+}
