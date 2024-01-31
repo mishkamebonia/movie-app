@@ -1,11 +1,13 @@
 import Search from "./Search";
-import TrendingSwiper from "./TrendingSwiper";
+import Content from "./Content";
+import Series from "./movies/Series";
 
 const Main = () => {
   return (
     <main>
       <Search />
-      <TrendingSwiper />
+      <Content />
+      <Series />
     </main>
   );
 };
