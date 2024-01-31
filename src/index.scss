@@ -77,31 +77,6 @@ input {
   font-weight: 300;
 }
 
-.search-input {
-  display: flex;
-  align-items: start;
-  gap: 24px;
-
-  label {
-    font-size: 22px;
-    cursor: pointer;
-  }
-
-  input {
-    width: 484px;
-    font-size: 24px;
-
-    &:focus {
-      border-bottom: 1px solid $pureWhite;
-      padding-bottom: 15px;
-    }
-
-    &::placeholder {
-      opacity: 0.4979;
-    }
-  }
-}
-
 .input {
   width: 336px;
   font-size: 15px;
