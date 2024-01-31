@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "./scss/colors.scss";
+
+$transition: 0.16s;
 
 * {
   margin: 0;
@@ -7,17 +10,21 @@
   font-family: "Outfit", sans-serif;
   font-style: normal;
   line-height: normal;
+  font-weight: 400;
+}
+
+body {
+  background: $darkBlue;
+  color: $pureWhite;
 }
 
 h1 {
   font-size: 32px;
-  font-weight: 400;
   letter-spacing: -0.5px;
 }
 
 h2 {
   font-size: 24px;
-  font-weight: 400;
 }
 
 h3 {
@@ -32,11 +39,58 @@ h4 {
 
 p {
   font-size: 15px;
-  font-weight: 400;
 }
 
 .light-text {
   font-size: 13px;
-  font-weight: 400;
   opacity: 0.75;
+}
+
+button {
+  font-size: 15px;
+  font-weight: 300;
+  background: $red;
+  color: $pureWhite;
+  padding: 14px 96px;
+  outline: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: $transition;
+
+  &:hover {
+    background: $pureWhite;
+    color: $semiDarkBlue;
+  }
+}
+
+.search-input {
+  display: flex;
+  align-items: start;
+  gap: 24px;
+
+  label {
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  input {
+    width: 484px;
+    background: transparent;
+    color: $pureWhite;
+    caret-color: $red;
+    outline: none;
+    border: none;
+    font-weight: 300;
+    font-size: 24px;
+
+    &:focus {
+      border-bottom: 1px solid $pureWhite;
+      padding-bottom: 15px;
+    }
+
+    &::placeholder {
+      opacity: 0.4979;
+    }
+  }
 }
