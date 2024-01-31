@@ -47,15 +47,19 @@ p {
 }
 
 button {
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.button {
   font-size: 15px;
   font-weight: 300;
   background: $red;
   color: $pureWhite;
   padding: 14px 96px;
-  outline: none;
-  border: none;
   border-radius: 6px;
-  cursor: pointer;
   transition: $transition;
 
   &:hover {
