@@ -1,0 +1,87 @@
+@import "../../scss/colors.scss";
+
+.backdrop-card,
+.poster-card {
+  margin-bottom: 50px;
+
+  img {
+    display: block;
+  }
+
+  a {
+    color: $pureWhite;
+  }
+
+  .row {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+  }
+
+  .title {
+    height: 40px;
+    overflow: hidden;
+  }
+
+  .date {
+    border: 1px solid $pureWhite;
+    border-radius: 2px;
+    padding: 3px 5px;
+  }
+
+  .custom-navigation {
+    margin-bottom: 25px;
+    // background-color: red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .swiper-btns {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .swiper-button-prev,
+      .swiper-button-next {
+        position: absolute;
+        display: block;
+        margin-bottom: 25px;
+        width: 30px;
+        height: 10px;
+        --swiper-navigation-size: 18px;
+        color: $pureWhite;
+      }
+
+      .swiper-button-prev {
+        left: -70px;
+      }
+
+      .swiper-button-next {
+        right: 0;
+      }
+    }
+  }
+}
+
+.backdrop-card {
+  img,
+  .row {
+    width: 370px;
+  }
+
+  .title {
+    width: 256px;
+  }
+}
+
+.poster-card {
+  img,
+  .row {
+    width: 230px;
+  }
+
+  .title {
+    width: 150px;
+  }
+}
