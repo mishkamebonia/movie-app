@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../components/Search";
 import "../components/movies/movie-cards.scss";
 import { apiKey } from "../config/movieApi";
@@ -43,8 +43,6 @@ const MoviesPage = () => {
     });
   };
 
-  console.log(movieList);
-
   return (
     <main>
       <Search />
@@ -53,7 +51,11 @@ const MoviesPage = () => {
         <div className="movies-row">
           {movieList &&
             movieList.map((movie) => (
-              <a href="#" key={movie.id} className="movies">
+              <Link
+                to={`/movies/${movie.id}`}
+                key={movie.id}
+                className="movies"
+              >
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
                   alt=""
@@ -64,7 +66,7 @@ const MoviesPage = () => {
                     {new Date(movie.release_date).getFullYear()}
                   </p>
                 </div>
-              </a>
+              </Link>
             ))}
         </div>
         <Pagination
