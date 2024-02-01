@@ -3,7 +3,7 @@ import Search from "../components/Search";
 const Bookmarked = () => {
   return (
     <main>
-      <Search />
+      <Search placeholder="Search for bookmarked shows" />
       <h1>bookmarked page</h1>
     </main>
   );
