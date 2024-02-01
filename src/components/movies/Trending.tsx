@@ -5,6 +5,7 @@ import SwiperCore from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./movie-cards.scss";
 import { apiKey } from "../../config/movieApi";
+import { Link } from "react-router-dom";
 
 SwiperCore.use([Navigation, A11y]);
 
@@ -48,7 +49,7 @@ const Trending = () => {
       >
         {movieList.map((movie) => (
           <SwiperSlide key={movie.id}>
-            <a href="#">
+            <Link to={`/movies/${movie.id}`}>
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
                 alt=""
@@ -59,7 +60,7 @@ const Trending = () => {
                   {new Date(movie.release_date).getFullYear()}
                 </p>
               </div>
-            </a>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
