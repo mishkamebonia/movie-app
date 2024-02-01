@@ -22,6 +22,8 @@
     }
 
     &::placeholder {
+      color: $pureWhite;
+      font-weight: 200;
       opacity: 0.4979;
     }
 
