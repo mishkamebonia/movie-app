@@ -1,12 +1,16 @@
-import Search from "../components/Search";
+import Page from "../components/movies/Page";
+import { seriesApi, searchSeriesApi, pageSeriesApi } from "../config/movieApi";
 
-const SeriesPage = () => {
+const MoviePage = () => {
   return (
-    <main>
-      <Search />
-      <h1>seriesPage page</h1>
-    </main>
+    <Page
+      title="TV Series"
+      apiUrl={seriesApi}
+      apiSearch={searchSeriesApi}
+      apiPage={pageSeriesApi}
+      placeholder="Search for TV series"
+      pageUrl="/series/"
+    ></Page>
   );
 };
-
-export default SeriesPage;
+export default MoviePage;
