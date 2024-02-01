@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import main from "../assets/main.svg";
 import film from "../assets/film.svg";
@@ -10,22 +11,22 @@ const SideBar = () => {
   return (
     <nav>
       <div className="menu">
-        <button>
+        <NavLink to="/">
           <img src={logo} alt="logo" />
-        </button>
+        </NavLink>
         <div className="btn-row">
-          <button>
+          <NavLink to="/">
             <img src={main} alt="main" />
-          </button>
-          <button>
+          </NavLink>
+          <NavLink to="/movies">
             <img src={film} alt="film" />
-          </button>
-          <button>
+          </NavLink>
+          <NavLink to="/series">
             <img src={tv} alt="tv" />
-          </button>
-          <button>
+          </NavLink>
+          <NavLink to="/bookmarked">
             <img src={marked} alt="marked" />
-          </button>
+          </NavLink>
         </div>
       </div>
 

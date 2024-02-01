@@ -1,8 +1,7 @@
 @import "./scss/colors.scss";
 
-.main-page {
+.home-page {
   display: flex;
-  justify-content: space-between;
   align-items: start;
   gap: 36px;
   margin: 32px;
@@ -16,6 +15,5 @@ nav {
 }
 
 main {
-  // background: green;
   min-width: 1240px;
 }
