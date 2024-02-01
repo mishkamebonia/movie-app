@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import Trending from "../components/movies/Trending";
+import Search from "../components/Search";
 import "./DetailsPage.scss";
 
 const DetailsPage = () => {
@@ -31,6 +32,11 @@ const DetailsPage = () => {
       .then((data) => setMovie(data));
 
     getVideos();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, [movieId]);
 
   if (!movie) {
@@ -44,6 +50,7 @@ const DetailsPage = () => {
 
   return (
     <main>
+      <Search />
       <div className="details-page">
         <div className="row">
           <img
