@@ -4,7 +4,7 @@ import { Navigation, A11y } from "swiper/modules";
 import SwiperCore from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./movie-cards.scss";
-import { apiKey } from "../../config/movieApi";
+import { seriesApi } from "../../config/movieApi";
 import { Link } from "react-router-dom";
 
 SwiperCore.use([Navigation, A11y]);
@@ -14,7 +14,7 @@ const Series = () => {
   const [swiperInstance, setSwiperInstance] = useState(null);
 
   const getMovie = () => {
-    fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}`)
+    fetch(seriesApi)
       .then((res) => res.json())
       .then((json) => setMovieList(json.results));
   };
@@ -27,7 +27,7 @@ const Series = () => {
     <section id="tranding" className="poster-card">
       <div className="custom-navigation">
         <Link to="/series">
-          <h1>Series</h1>
+          <h1>TV Series</h1>
         </Link>
         <div className="swiper-btns">
           <div

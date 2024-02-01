@@ -4,7 +4,7 @@ import { Navigation, A11y, Autoplay } from "swiper/modules";
 import SwiperCore from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./movie-cards.scss";
-import { apiKey } from "../../config/movieApi";
+import { movieApi } from "../../config/movieApi";
 import { Link } from "react-router-dom";
 
 SwiperCore.use([Navigation, A11y]);
@@ -14,7 +14,7 @@ const Trending = () => {
   const [swiperInstance, setSwiperInstance] = useState(null);
 
   const getMovie = () => {
-    fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`)
+    fetch(movieApi)
       .then((res) => res.json())
       .then((json) => setMovieList(json.results));
   };
