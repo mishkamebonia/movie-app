@@ -41,7 +41,6 @@ const Movies = () => {
         </div>
       </div>
       <Swiper
-        loop={true}
         modules={[Navigation, A11y]}
         spaceBetween={50}
         slidesPerView={6}
