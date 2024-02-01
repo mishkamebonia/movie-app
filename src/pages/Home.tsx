@@ -7,7 +7,6 @@ const Home = () => {
     <main>
       <Search />
       <Content />
-      <Series />
     </main>
   );
 };
