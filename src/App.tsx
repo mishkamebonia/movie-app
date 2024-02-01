@@ -5,7 +5,8 @@ import Home from "./pages/Home";
 import MoviesPage from "./pages/MoviesPage";
 import SeriesPage from "./pages/SeriesPage";
 import Bookmarked from "./pages/Bookmarked";
-import DetailsPage from "./pages/DetailsPage";
+import MovieDetail from "./pages/MovieDetail";
+import SerieDetail from "./pages/SerieDetail";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
         <Routes>
           <Route path="/" index element={<Home />} />
           <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/movies/:movieId" element={<DetailsPage />} />
+          <Route path="/movies/:movieId" element={<MovieDetail />} />
           <Route path="/series" element={<SeriesPage />} />
+          <Route path="/series/:seriesId" element={<SerieDetail />} />
           <Route path="/bookmarked" element={<Bookmarked />} />
         </Routes>
       </div>
