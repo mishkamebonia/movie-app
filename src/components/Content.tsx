@@ -1,10 +1,13 @@
 import Trending from "./movies/Trending";
 import Movies from "./movies/Movies";
+import Series from "./movies/Series";
 
 const Content = () => {
   return (
     <div>
-      <Trending /> <Movies />
+      <Trending />
+      <Movies />
+      <Series />
     </div>
   );
 };
