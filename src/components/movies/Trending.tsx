@@ -41,7 +41,7 @@ const Trending = () => {
         loop={true}
         modules={[Navigation, A11y, Autoplay]}
         spaceBetween={50}
-        slidesPerView={4.5}
+        slidesPerView={4.15}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         navigation={false}
         onSwiper={setSwiperInstance}

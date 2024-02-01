@@ -41,7 +41,7 @@ const Series = () => {
         loop={true}
         modules={[Navigation, A11y]}
         spaceBetween={50}
-        slidesPerView={7}
+        slidesPerView={6}
         navigation={false}
         onSwiper={setSwiperInstance}
       >

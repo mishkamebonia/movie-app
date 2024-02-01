@@ -7,7 +7,7 @@
   margin: 32px;
 }
 
-nav {
+.side-bar {
   background: $semiDarkBlue;
   width: 96px;
   height: 900px;
@@ -15,5 +15,6 @@ nav {
 }
 
 main {
+  flex: 1;
   min-width: 1240px;
 }

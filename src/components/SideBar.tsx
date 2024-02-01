@@ -9,7 +9,7 @@ import "./SideBar.scss";
 
 const SideBar = () => {
   return (
-    <nav>
+    <nav className="side-bar">
       <div className="menu">
         <NavLink to="/">
           <img src={logo} alt="logo" />

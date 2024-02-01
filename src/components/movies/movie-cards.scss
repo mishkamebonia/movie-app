@@ -62,12 +62,50 @@
       }
     }
   }
+
+  .movies-row {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 30px;
+
+    .movies {
+      flex: 0 0 23.5%;
+      max-width: 23.5%;
+
+      img,
+      .row {
+        width: 100%;
+      }
+    }
+  }
+
+  .pagitation {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+
+    ul {
+      padding: 10px;
+      background: $red;
+      border-radius: 20px;
+    }
+
+    li {
+      border-radius: 5px;
+    }
+
+    button {
+      color: $pureWhite;
+    }
+  }
 }
 
 .backdrop-card {
   img,
   .row {
-    width: 370px;
+    width: 390px;
   }
 
   .title {
@@ -78,7 +116,7 @@
 .poster-card {
   img,
   .row {
-    width: 230px;
+    width: 260px;
   }
 
   .title {
