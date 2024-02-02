@@ -1,0 +1,21 @@
+@import "../scss/mediaQueries.scss";
+
+.content {
+  max-width: 100%;
+}
+
+@include respond-to(375px) {
+  .content {
+    max-width: 343px;
+    padding: 0 16px;
+  }
+}
+
+// @include respond-to(1440px) {
+// }
+
+// @include respond-to(1280px) {
+//   .content {
+//     max-width: 100%;
+//   }
+// }
