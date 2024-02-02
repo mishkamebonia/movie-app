@@ -41,8 +41,8 @@ const DetailsPage = (props) => {
 
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth <= 1439) {
-        setOpts({ height: "200", width: "200" });
+      if (window.innerWidth <= 1440) {
+        setOpts({ height: "360", width: "640" });
       } else {
         setOpts({ height: "480", width: "854" });
       }
