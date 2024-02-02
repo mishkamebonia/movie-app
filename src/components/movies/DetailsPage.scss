@@ -30,14 +30,20 @@
     align-items: center;
     gap: 50px;
     margin-bottom: 50px;
+    height: 500px;
+    background: $semiDarkBlue;
 
     .poster {
-      height: 600px;
+      height: 100%;
       object-fit: cover;
     }
 
     .trailer {
       flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
     }
   }
 }
