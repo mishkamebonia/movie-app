@@ -10,6 +10,7 @@ SwiperCore.use([Navigation, A11y]);
 
 const Slider = (props) => {
   const { dataApi, title, url, slides, image, autoplay } = props;
+
   const [dataList, setDataList] = useState([]);
   const [swiperInstance, setSwiperInstance] = useState(null);
 
