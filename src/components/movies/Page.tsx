@@ -48,38 +48,40 @@ const Page = (props) => {
         searchApi={apiSearch}
         placeholder={placeholder}
       />
-      <div className="backdrop-card">
-        <h1>{title}</h1>
-        <div className="movies-row">
-          {movieList &&
-            movieList.map((movie) => (
-              <Link
-                to={`${pageUrl}${movie.id}`}
-                key={movie.id}
-                className="movies"
-              >
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                  alt=""
-                />
-                <div className="row">
-                  <p className="title">{movie.title || movie.name}</p>
-                  <p className="light-text date">
-                    {new Date(movie.release_date).getFullYear() ||
-                      new Date(movie.first_air_date).getFullYear()}
-                  </p>
-                </div>
-              </Link>
-            ))}
+      <div className="content">
+        <div className="backdrop-card">
+          <h1>{title}</h1>
+          <div className="movies-row">
+            {movieList &&
+              movieList.map((movie) => (
+                <Link
+                  to={`${pageUrl}${movie.id}`}
+                  key={movie.id}
+                  className="movies"
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                    alt=""
+                  />
+                  <div className="row">
+                    <p className="title">{movie.title || movie.name}</p>
+                    <p className="light-text date">
+                      {new Date(movie.release_date).getFullYear() ||
+                        new Date(movie.first_air_date).getFullYear()}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+          </div>
+          <Pagination
+            className="pagitation"
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            showFirstButton
+            showLastButton
+          />
         </div>
-        <Pagination
-          className="pagitation"
-          count={totalPages}
-          page={page}
-          onChange={handlePageChange}
-          showFirstButton
-          showLastButton
-        />
       </div>
     </main>
   );
