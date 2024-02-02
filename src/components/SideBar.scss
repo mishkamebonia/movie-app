@@ -1,4 +1,5 @@
 @import "../scss/colors.scss";
+@import "../scss/mediaQueries.scss";
 
 .side-bar {
   display: flex;
@@ -6,6 +7,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 35px 38px 32px;
+
+  background: $semiDarkBlue;
+  width: 96px;
+  height: 900px;
+  border-radius: 20px;
 
   .menu {
     display: flex;
@@ -26,5 +32,23 @@
   i {
     font-size: 30px;
     color: $pureWhite;
+  }
+}
+
+@include respond-to(375px) {
+  .side-bar {
+    flex-direction: row;
+    width: 100%;
+    height: 56px;
+    border-radius: 0;
+
+    .menu {
+      flex-direction: row;
+    }
+
+    .btn-row {
+      flex-direction: row;
+      gap: 24px;
+    }
   }
 }

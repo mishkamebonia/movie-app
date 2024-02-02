@@ -1,4 +1,5 @@
 @import "../scss/colors.scss";
+@import "../scss/mediaQueries.scss";
 
 .search-input {
   display: flex;
@@ -32,6 +33,29 @@
     &[type="search"]::-webkit-search-results-button,
     &[type="search"]::-webkit-search-results-decoration {
       -webkit-appearance: none;
+    }
+  }
+}
+
+@include respond-to(375px) {
+  .search-input {
+    align-items: center;
+    margin: 0 16px 26px;
+    height: 30px;
+    gap: 16px;
+
+    input {
+      max-width: 270px;
+      font-size: 16px;
+
+      &:focus {
+        border: none;
+        padding-bottom: 0;
+      }
+    }
+
+    label {
+      font-size: 18px;
     }
   }
 }

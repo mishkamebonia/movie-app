@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "./scss/colors.scss";
+@import "./scss/mediaQueries.scss";
 
 $transition: 0.16s;
 
@@ -93,5 +94,15 @@ input {
 
   &::placeholder {
     opacity: 0.5;
+  }
+}
+
+@include respond-to(375px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
   }
 }

@@ -1,4 +1,5 @@
 @import "./scss/colors.scss";
+@import "./scss//mediaQueries.scss";
 
 .home-page {
   display: flex;
@@ -7,14 +8,19 @@
   margin: 32px;
 }
 
-.side-bar {
-  background: $semiDarkBlue;
-  width: 96px;
-  height: 900px;
-  border-radius: 20px;
+main {
+  min-width: 1000px;
+  flex: 1;
 }
 
-main {
-  flex: 1;
-  min-width: 1240px;
+@include respond-to(375px) {
+  main {
+    min-width: 343px;
+    margin: 0 auto;
+  }
+
+  .home-page {
+    flex-direction: column;
+    margin: 0;
+  }
 }
