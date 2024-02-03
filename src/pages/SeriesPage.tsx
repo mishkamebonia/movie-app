@@ -1,5 +1,6 @@
 import Page from "../components/movies/Page";
-import { seriesApi, searchSeriesApi, pageSeriesApi } from "../config/movieApi";
+import { seriesApi, searchSeriesApi } from "../config/movieApi";
+import { routes } from "../App";
 
 const MoviePage = () => {
   return (
@@ -7,9 +8,8 @@ const MoviePage = () => {
       title="TV Series"
       apiUrl={seriesApi}
       apiSearch={searchSeriesApi}
-      apiPage={pageSeriesApi}
       placeholder="Search for TV series"
-      pageUrl="/series/"
+      pageUrl={routes.series}
     ></Page>
   );
 };

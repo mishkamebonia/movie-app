@@ -1,5 +1,6 @@
 import Page from "../components/movies/Page";
-import { movieApi, searchMovieApi, pageMoviesApi } from "../config/movieApi";
+import { movieApi, searchMovieApi } from "../config/movieApi";
+import { routes } from "../App";
 
 const MoviePage = () => {
   return (
@@ -7,9 +8,8 @@ const MoviePage = () => {
       title="Movies"
       apiUrl={movieApi}
       apiSearch={searchMovieApi}
-      apiPage={pageMoviesApi}
       placeholder="Search for movies"
-      pageUrl="/movies/"
+      pageUrl={routes.movies}
     ></Page>
   );
 };
