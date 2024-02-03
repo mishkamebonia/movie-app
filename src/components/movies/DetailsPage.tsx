@@ -1,18 +1,20 @@
 import { apiKey } from "../../config/movieApi";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import Search from "../Search";
 import Slider from "./Slider";
 import { movieApi } from "../../config/movieApi";
+import { routes } from "../../App";
 import "./DetailsPage.scss";
 
 const DetailsPage = (props) => {
-  const { url, videoUrl, placeholder } = props;
+  const { url, videoUrl, route, placeholder } = props;
   const { movieId, seriesId } = useParams();
   const [link, setLink] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
   const [opts, setOpts] = useState({ height: "480", width: "854" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const id = movieId || seriesId;
@@ -49,7 +51,7 @@ const DetailsPage = (props) => {
     }
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Call on initial render
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -63,7 +65,12 @@ const DetailsPage = (props) => {
   return (
     <main>
       <div className="content">
-        <Search placeholder={placeholder} />
+        <Search
+          placeholder={placeholder}
+          onSearch={(value) => {
+            navigate(`${route}?query=${value}`);
+          }}
+        />
         <div className="details-page">
           <div className="row">
             <img
@@ -168,7 +175,7 @@ const DetailsPage = (props) => {
       <Slider
         dataApi={movieApi}
         title="Popular Movies"
-        url="/movies/"
+        url={routes.movies}
         slides="4"
         image="backdrop"
         autoplay={true}
