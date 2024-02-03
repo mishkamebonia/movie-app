@@ -5,15 +5,23 @@ import "../../components/movies/movie-cards.scss";
 import { Pagination } from "@mui/material";
 
 const Page = (props) => {
-  const { title, apiUrl, apiSearch, apiPage, placeholder, pageUrl } = props;
+  const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
+
   const [movieList, setMovieList] = useState([]);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const pageNumber = parseInt(searchParams.get("page") || "1");
+  const query = searchParams.get("query") || "";
 
-  const getMovie = (pageNumber) => {
-    fetch(`${apiUrl}&page=${pageNumber}`)
+  console.log("rerendered");
+
+  const getMovie = () => {
+    console.log("fetched");
+
+    const url = query ? apiSearch : apiUrl;
+    fetch(`${url}&page=${pageNumber}&query=${query}`)
       .then((res) => res.json())
       .then((json) => {
         setMovieList(json.results);
@@ -22,18 +30,11 @@ const Page = (props) => {
   };
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const currentPage = parseInt(searchParams.get("page")) || 1;
-    setPage(currentPage);
-  }, [location.search]);
-
-  useEffect(() => {
-    getMovie(page);
-  }, [page]);
+    getMovie();
+  }, [pageNumber, query]);
 
   const handlePageChange = (event, value) => {
-    setPage(value);
-    navigate(`${apiPage}${value}`);
+    navigate(`${location.pathname}?page=${value}&query=${query}`);
 
     window.scrollTo({
       top: 0,
@@ -44,8 +45,9 @@ const Page = (props) => {
   return (
     <main>
       <Search
-        setSearchList={setMovieList}
-        searchApi={apiSearch}
+        onSearch={(searchString) => {
+          navigate(`${location.pathname}?query=${searchString}`);
+        }}
         placeholder={placeholder}
       />
       <div className="content">
@@ -76,7 +78,7 @@ const Page = (props) => {
           <Pagination
             className="pagitation"
             count={totalPages}
-            page={page}
+            page={pageNumber}
             onChange={handlePageChange}
             showFirstButton
             showLastButton
