@@ -8,18 +8,27 @@ import Bookmarked from "./pages/Bookmarked";
 import MovieDetail from "./pages/MovieDetail";
 import SerieDetail from "./pages/SerieDetail";
 
+export const routes = {
+  home: "/",
+  movies: "/movies/",
+  moviesId: "/movies/:movieId",
+  series: "/series/",
+  seriesId: "/series/:seriesId",
+  bookmarked: "/bookmarked/",
+};
+
 function App() {
   return (
     <Router>
       <div className="home-page">
         <SideBar />
         <Routes>
-          <Route path="/" index element={<Home />} />
-          <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/movies/:movieId" element={<MovieDetail />} />
-          <Route path="/series" element={<SeriesPage />} />
-          <Route path="/series/:seriesId" element={<SerieDetail />} />
-          <Route path="/bookmarked" element={<Bookmarked />} />
+          <Route path={routes.home} index element={<Home />} />
+          <Route path={routes.movies} element={<MoviesPage />} />
+          <Route path={routes.moviesId} element={<MovieDetail />} />
+          <Route path={routes.series} element={<SeriesPage />} />
+          <Route path={routes.seriesId} element={<SerieDetail />} />
+          <Route path={routes.bookmarked} element={<Bookmarked />} />
         </Routes>
       </div>
     </Router>
