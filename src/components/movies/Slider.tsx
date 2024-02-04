@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y, Autoplay } from "swiper/modules";
+import { Skeleton } from "@mui/material";
 import SwiperCore from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./movie-cards.scss";
@@ -23,8 +24,6 @@ const Slider = (props) => {
   useEffect(() => {
     getData();
   }, []);
-
-  console.log(dataList);
 
   return (
     <section id="tranding" className="poster-card">
@@ -53,31 +52,42 @@ const Slider = (props) => {
         }
         onSwiper={setSwiperInstance}
       >
-        {dataList.map((data) => (
-          <SwiperSlide key={data.id}>
-            <Link to={`${url}${data.id}`}>
-              {image === "backdrop" && (
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${data.backdrop_path}`}
-                  alt=""
-                />
-              )}
-              {image === "poster" && (
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-                  alt=""
-                />
-              )}
-              <div className="row">
-                <p className="title">{data.title || data.name}</p>
-                <p className="light-text date">
-                  {new Date(data.release_date).getFullYear() ||
-                    new Date(data.first_air_date).getFullYear()}
-                </p>
-              </div>
-            </Link>
-          </SwiperSlide>
-        ))}
+        {dataList.map((data) =>
+          dataList ? (
+            <SwiperSlide key={data.id}>
+              <Link to={`${url}${data.id}`}>
+                {image === "backdrop" && (
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${data.backdrop_path}`}
+                    alt=""
+                  />
+                )}
+                {image === "poster" && (
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+                    alt=""
+                  />
+                )}
+                <div className="row">
+                  <p className="title">{data.title || data.name}</p>
+                  <p className="light-text date">
+                    {new Date(data.release_date).getFullYear() ||
+                      new Date(data.first_air_date).getFullYear()}
+                  </p>
+                </div>
+              </Link>
+            </SwiperSlide>
+          ) : (
+            <SwiperSlide key="skeleton">
+              <Skeleton
+                sx={{ bgcolor: "grey.900" }}
+                variant="rectangular"
+                width="100%"
+                height="233px"
+              />
+            </SwiperSlide>
+          )
+        )}
       </Swiper>
     </section>
   );
