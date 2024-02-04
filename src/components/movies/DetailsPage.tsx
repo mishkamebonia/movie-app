@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import YouTube from "react-youtube";
 import Search from "../Search";
 import Slider from "./Slider";
+import Loader from "../Loader";
 import { movieApi } from "../../config/movieApi";
 import { routes } from "../../App";
 import "./DetailsPage.scss";
@@ -59,7 +60,7 @@ const DetailsPage = (props) => {
   }, []);
 
   if (!link) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
