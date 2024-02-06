@@ -10,7 +10,6 @@ import SerieDetail from "./pages/SerieDetail";
 import { useAuthContext } from "./providers/auth";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { useEffect } from "react";
 
 export const routes = {
   home: "/",
