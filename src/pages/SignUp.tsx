@@ -1,109 +1,64 @@
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../App";
 import { useAuthContext } from "../providers/auth";
 import { useState } from "react";
-
-const defaultTheme = createTheme();
+import logo from "../assets/logo.svg";
+import "../scss/form.scss";
 
 const signUp = () => {
   const { signUp } = useAuthContext();
 
-  const [signUpEmail, setSignUpEmail] = useState<string>("");
-  const [signUpPassword, setSignUpPassword] = useState<string>("");
-
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    signUp(signUpEmail, signUpPassword);
-    navigate(routes.home);
+    if (password === repeatPassword) {
+      navigate(routes.home);
+      return signUp(email, password);
+    }
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={signUpEmail}
-              onChange={(e) => setSignUpEmail(e.target.value)}
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={signUpPassword}
-              onChange={(e) => setSignUpPassword(e.target.value)}
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign up
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <NavLink to={routes.login} variant="body2">
-                  {"Have an account? Login"}
-                </NavLink>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+    <div>
+      <div className="form-container">
+        <img src={logo} alt="logo" />
+        <form className="form" onSubmit={handleSubmit}>
+          <h1>Sign Up</h1>
+          <input
+            className="input"
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            className="input"
+            type="password"
+            placeholder="Repeat password"
+            value={repeatPassword}
+            onChange={(e) => setRepeatPassword(e.target.value)}
+          />
+          <button className="button">Create an account</button>
+          <p>
+            Already have an account?
+            <NavLink to={routes.login} className="link">
+              Login
+            </NavLink>
+          </p>
+        </form>
+      </div>
+    </div>
   );
 };
 
