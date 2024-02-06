@@ -9,7 +9,7 @@ const Content = () => {
         dataApi={movieApi}
         title="Popular Movies"
         url="/movies/"
-        slides="4"
+        slides="3"
         image="backdrop"
         autoplay={true}
       />
@@ -17,7 +17,7 @@ const Content = () => {
         dataApi={newMoviesUrl}
         title="Movies"
         url="/movies/"
-        slides="6"
+        slides="5"
         image="poster"
         autoplay={false}
       />
@@ -25,7 +25,7 @@ const Content = () => {
         dataApi={seriesApi}
         title="TV Series"
         url="/series/"
-        slides="6"
+        slides="5"
         image="poster"
         autoplay={false}
       />
