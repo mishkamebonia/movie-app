@@ -7,6 +7,10 @@ import SeriesPage from "./pages/SeriesPage";
 import Bookmarked from "./pages/Bookmarked";
 import MovieDetail from "./pages/MovieDetail";
 import SerieDetail from "./pages/SerieDetail";
+import { useAuthContext } from "./providers/auth";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import { useEffect } from "react";
 
 export const routes = {
   home: "/",
@@ -15,22 +19,35 @@ export const routes = {
   series: "/series/",
   seriesId: "/series/:seriesId",
   bookmarked: "/bookmarked/",
+  login: "/login/",
+  signUp: "/signUp/",
 };
 
 function App() {
+  const { user } = useAuthContext();
+
   return (
     <Router>
-      <div className="home-page">
-        <SideBar />
-        <Routes>
-          <Route path={routes.home} index element={<Home />} />
-          <Route path={routes.movies} element={<MoviesPage />} />
-          <Route path={routes.moviesId} element={<MovieDetail />} />
-          <Route path={routes.series} element={<SeriesPage />} />
-          <Route path={routes.seriesId} element={<SerieDetail />} />
-          <Route path={routes.bookmarked} element={<Bookmarked />} />
-        </Routes>
-      </div>
+      {user ? (
+        <div className="home-page">
+          <SideBar />
+          <Routes>
+            <Route path={routes.home} index element={<Home />} />
+            <Route path={routes.movies} element={<MoviesPage />} />
+            <Route path={routes.moviesId} element={<MovieDetail />} />
+            <Route path={routes.series} element={<SeriesPage />} />
+            <Route path={routes.seriesId} element={<SerieDetail />} />
+            <Route path={routes.bookmarked} element={<Bookmarked />} />
+          </Routes>
+        </div>
+      ) : (
+        <div>
+          <Routes>
+            <Route path={routes.login} element={<Login />} />
+            <Route path={routes.signUp} element={<SignUp />} />
+          </Routes>
+        </div>
+      )}
     </Router>
   );
 }
