@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../Search";
+import "../../scss/buttons.scss";
 import "../../components/movies/movie-cards.scss";
 import { Pagination } from "@mui/material";
 import Loader from "../Loader";
 import { Skeleton } from "@mui/material";
+import noImage from "../../assets/no-image.jpeg";
 
 const Page = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
@@ -25,8 +27,12 @@ const Page = (props) => {
       .then((res) => res.json())
       .then((json) => {
         setMovieList(json.results);
-        setTotalPages(json.total_pages);
         setLoading(false);
+        if (json.total_pages > 500) {
+          setTotalPages(500);
+        } else {
+          setTotalPages(json.total_pages);
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -56,7 +62,6 @@ const Page = (props) => {
   // if (loading) {
   //   return <Loader />;
   // }
-  console.log(loading);
 
   return (
     <main>
@@ -88,14 +93,18 @@ const Page = (props) => {
                   >
                     <img
                       src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                      alt=""
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = noImage;
+                      }}
                     />
                     <button
                       type="button"
                       style={{ zIndex: 100 }}
                       onClick={handleBookmared}
+                      className="bookmark"
                     >
-                      <i class="fa-solid fa-bookmark"></i>
+                      <i class="fa-regular fa-bookmark"></i>
                     </button>
                     <div className="row">
                       <p className="title">{movie.title || movie.name}</p>
