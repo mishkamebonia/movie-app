@@ -47,6 +47,12 @@ const Page = (props) => {
     });
   };
 
+  const handleBookmared = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    console.log("clicked");
+  };
+
   // if (loading) {
   //   return <Loader />;
   // }
@@ -78,11 +84,19 @@ const Page = (props) => {
                     to={`${pageUrl}${movie.id}`}
                     key={movie.id}
                     className="movies"
+                    style={{ zIndex: 1 }}
                   >
                     <img
                       src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
                       alt=""
                     />
+                    <button
+                      type="button"
+                      style={{ zIndex: 100 }}
+                      onClick={handleBookmared}
+                    >
+                      <i class="fa-solid fa-bookmark"></i>
+                    </button>
                     <div className="row">
                       <p className="title">{movie.title || movie.name}</p>
                       <p className="light-text date">

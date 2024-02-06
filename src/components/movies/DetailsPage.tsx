@@ -177,7 +177,7 @@ const DetailsPage = (props) => {
         dataApi={movieApi}
         title="Popular Movies"
         url={routes.movies}
-        slides="4"
+        slides="3"
         image="backdrop"
         autoplay={true}
       />
