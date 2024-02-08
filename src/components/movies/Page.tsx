@@ -104,7 +104,7 @@ const Page = (props) => {
                       onClick={handleBookmared}
                       className="bookmark"
                     >
-                      <i class="fa-regular fa-bookmark"></i>
+                      <i className="fa-regular fa-bookmark"></i>
                     </button>
                     <div className="row">
                       <p className="title">{movie.title || movie.name}</p>
