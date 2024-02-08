@@ -181,14 +181,6 @@ const DetailsPage = (props) => {
         image="backdrop"
         autoplay={true}
       />
-      <Slider
-        dataApi={searchMovieAndSeriesApi}
-        title="Similar Movies"
-        url={routes.movies}
-        slides="6"
-        image="poster"
-        autoplay={false}
-      />
     </main>
   );
 };
