@@ -1,6 +1,7 @@
 import Search from "../components/Search";
 import Content from "../components/Content";
 import { searchMovieAndSeriesApi } from "../config/movieApi";
+import Loader from "../components/Loader";
 
 const Home = () => {
   return (
