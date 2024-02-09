@@ -9,7 +9,7 @@ import {
 
 interface AuthContextType {
   user: null | User;
-  signUp: (email: string, password: string) => void;
+  // signUp: (email: string, password: string) => void;
   signIn: (email: string, password: string) => void;
   logOut: VoidFunction;
 }
@@ -21,7 +21,6 @@ interface Props {
 
 export function AuthContextProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null);
-  console.log(user);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: User | null) => {
