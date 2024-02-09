@@ -1,0 +1,20 @@
+@import "./colors.scss";
+
+.input {
+  width: 336px;
+  font-size: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid $greyishBlue;
+  background: transparent;
+  color: $pureWhite;
+  caret-color: $red;
+
+  &:focus {
+    border-bottom-color: $pureWhite;
+  }
+
+  &::placeholder {
+    opacity: 0.5;
+    color: $pureWhite;
+  }
+}
