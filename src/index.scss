@@ -60,21 +60,6 @@ button {
   cursor: pointer;
 }
 
-.button {
-  font-size: 15px;
-  font-weight: 300;
-  background: $red;
-  color: $pureWhite;
-  padding: 14px 96px;
-  border-radius: 6px;
-  transition: $transition;
-
-  &:hover {
-    background: $pureWhite;
-    color: $semiDarkBlue;
-  }
-}
-
 input {
   background: transparent;
   color: $pureWhite;
