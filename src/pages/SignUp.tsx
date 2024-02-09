@@ -8,6 +8,7 @@ import "../scss/form.scss";
 const signUp = () => {
   const { signUp } = useAuthContext();
 
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -28,6 +29,13 @@ const signUp = () => {
         <img src={logo} alt="logo" />
         <form className="form" onSubmit={handleSubmit}>
           <h1>Sign Up</h1>
+          <input
+            className="input"
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <input
             className="input"
             type="email"
