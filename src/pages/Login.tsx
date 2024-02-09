@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../App";
 import { useAuthContext } from "../providers/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/logo.svg";
 import "../scss/form.scss";
 
@@ -12,17 +12,19 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
-  console.log(user);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    signIn(email, password);
+    return signIn(email, password);
   };
 
-  if (user) {
-    return navigate(routes.home);
-  }
+  useEffect(() => {
+    // If user is logged in, navigate to the home page
+    if (user) {
+      navigate(routes.home);
+    }
+  }, [user, navigate]);
 
   return (
     <div>
