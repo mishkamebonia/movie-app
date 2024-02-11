@@ -4,6 +4,7 @@ import { useAuthContext } from "../providers/auth";
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.svg";
 import "../scss/form.scss";
+import { auth } from "../config/firebase";
 
 const Login = () => {
   const { user, signIn } = useAuthContext();
@@ -13,18 +14,25 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate(routes.home);
+      }
+    });
+
+    return unsubscribe;
+  }, [user, navigate]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    return signIn(email, password);
-  };
-
-  useEffect(() => {
-    // If user is logged in, navigate to the home page
-    if (user) {
-      navigate(routes.home);
+    try {
+      await signIn(email, password);
+    } catch (error) {
+      console.error("Sign-in error:", error);
     }
-  }, [user, navigate]);
+  };
 
   return (
     <div>
@@ -46,7 +54,9 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="button">Login to your account</button>
+          <button type="submit" className="button">
+            Login to your account
+          </button>
           <p>
             Don’t have an account?
             <NavLink to={routes.signUp} className="link">
