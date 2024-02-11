@@ -9,7 +9,7 @@ import {
 
 interface AuthContextType {
   user: null | User;
-  // signUp: (email: string, password: string) => void;
+  signUp: (email: string, password: string) => void;
   signIn: (email: string, password: string) => void;
   logOut: VoidFunction;
 }
