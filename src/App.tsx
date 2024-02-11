@@ -10,6 +10,7 @@ import SerieDetail from "./pages/SerieDetail";
 import { useAuthContext } from "./providers/auth";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import { auth, db } from "./config/firebase";
 
 export const routes = {
   home: "/",
@@ -24,7 +25,7 @@ export const routes = {
 
 function App() {
   const { user } = useAuthContext();
-  console.log(user);
+  // console.log(user);
 
   return (
     <Router>
