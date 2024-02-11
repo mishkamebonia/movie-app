@@ -7,6 +7,9 @@ import { Pagination } from "@mui/material";
 import Loader from "../Loader";
 import { Skeleton } from "@mui/material";
 import noImage from "../../assets/no-image.jpeg";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
+import { db, storage } from "../../config/firebase"; // Assuming you have access to Firebase storage and Firestore
 
 const Page = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
@@ -53,10 +56,31 @@ const Page = (props) => {
     });
   };
 
-  const handleBookmared = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBookmarked = async (e) => {
     e.preventDefault();
+    try {
+      // Create a unique image name
+      const date = new Date().getTime();
+      const imageRef = ref(storage, `movie/${movieId}_${date}`); // Assuming you want to name the image based on the movie ID and current timestamp
 
-    console.log("clicked");
+      // Upload the image to Firebase Storage
+      await uploadBytes(imageRef, image);
+
+      // Get the download URL of the uploaded image
+      const imageURL = await getDownloadURL(imageRef);
+
+      // Add bookmarked movie data to Firestore
+      await setDoc(doc(db, "usersBookmarked", uid + "_" + movieId), {
+        uid: uid,
+        movieId: movieId,
+        title: title,
+        imageURL: imageURL, // Assuming this is the URL of the uploaded image
+      });
+
+      console.log("Movie bookmarked successfully!");
+    } catch (error) {
+      console.error("Error bookmarking movie: ", error);
+    }
   };
 
   // if (loading) {
@@ -101,7 +125,7 @@ const Page = (props) => {
                     <button
                       type="button"
                       style={{ zIndex: 100 }}
-                      onClick={handleBookmared}
+                      onClick={handleBookmarked}
                       className="bookmark"
                     >
                       <i className="fa-regular fa-bookmark"></i>
