@@ -13,16 +13,23 @@ import { useAuthContext } from "../providers/auth";
 import { routes } from "../App";
 
 const SideBar = () => {
-  const { logOut } = useAuthContext();
+  const { user, logOut } = useAuthContext();
 
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleProfile = () => {
+    navigate(routes.profile);
     setAnchorEl(null);
   };
 
@@ -62,7 +69,7 @@ const SideBar = () => {
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
           >
-            <i className="fa-solid fa-circle-user"></i>
+            <img className="profile-img" src={user?.photoURL} alt="" />
           </Button>
           <Menu
             id="basic-menu"
@@ -73,7 +80,7 @@ const SideBar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleProfile}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleLogOut}>Logout</MenuItem>
           </Menu>
