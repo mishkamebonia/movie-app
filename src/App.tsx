@@ -10,7 +10,7 @@ import SerieDetail from "./pages/SerieDetail";
 import { useAuthContext } from "./providers/auth";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import { auth, db } from "./config/firebase";
+import Profile from "./pages/Profile";
 
 export const routes = {
   home: "/",
@@ -21,11 +21,12 @@ export const routes = {
   bookmarked: "/bookmarked/",
   login: "/login/",
   signUp: "/signUp/",
+  profile: "/profile/",
 };
 
 function App() {
   const { user } = useAuthContext();
-  // console.log(user);
+  console.log(user);
 
   return (
     <Router>
@@ -34,6 +35,7 @@ function App() {
           <SideBar />
           <Routes>
             <Route path={routes.home} index element={<Home />} />
+            <Route path={routes.profile} index element={<Profile />} />
             <Route path={routes.movies} element={<MoviesPage />} />
             <Route path={routes.moviesId} element={<MovieDetail />} />
             <Route path={routes.series} element={<SeriesPage />} />
