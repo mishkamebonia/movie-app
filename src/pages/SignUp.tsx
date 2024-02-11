@@ -1,91 +1,96 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { routes } from "../App";
 import { useAuthContext } from "../providers/auth";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import logo from "../assets/logo.svg";
 import "../scss/form.scss";
+import { updateProfile } from "firebase/auth";
 import { auth, db, storage } from "../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { updateProfile } from "firebase/auth";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import userImg from "../assets/user.png";
 
 const signUp = () => {
   const { signUp } = useAuthContext();
+  const navigate = useNavigate();
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [repeatPassword, setRepeatPassword] = useState<string>("");
-  const [image, setImage] = useState<string>(null);
-  const navigate = useNavigate();
+  const [image, setImage] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<File | null>(null);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     await updateProfile(signUp.user, {
-  //       displayName: name,
-  //       photoURL: image,
-  //     });
-
-  //     await setDoc(doc(db, "users", signUp.user.uid), {
-  //       uid: signUp.user.uid,
-  //       displayName: name,
-  //       email: email,
-  //       photoURL: image,
-  //     });
-
-  //     navigate("/");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-
-  //   // if (password === repeatPassword) {
-  //   //   navigate(routes.home);
-  //   //   return signUp(email, password);
-  //   // }
-  // };
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       // Sign up the user
-      await signUp(email, password);
+      if (name !== "" && password === repeatPassword && image !== null) {
+        await signUp(email, password);
 
-      // Upload the image to Firebase Storage
-      const imageRef = storage.ref().child(`profile_images/${email}`);
-      await imageRef.put(image);
+        // Create a unique image name
+        const date = new Date().getTime();
+        const imageRef = ref(storage, `profile_images/${email + date}`);
 
-      // Get the download URL of the uploaded image
-      const imageURL = await imageRef.getDownloadURL();
+        // Upload the image to Firebase Storage
+        await uploadBytes(imageRef, image);
 
-      // Update user profile with name and photoURL
-      const user = auth.currentUser;
-      await updateProfile(user, {
-        displayName: name,
-        photoURL: imageURL,
-      });
+        // Get the download URL of the uploaded image
+        const imageURL = await getDownloadURL(imageRef);
 
-      // Add user data to Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        displayName: name,
-        email: email,
-        photoURL: imageURL,
-      });
+        // Update user profile with name and photoURL
+        const user = auth.currentUser;
+        await updateProfile(user, {
+          displayName: name,
+          photoURL: imageURL,
+        });
 
-      navigate("/");
+        // Add user data to Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          displayName: name,
+          email: email,
+          photoURL: imageURL,
+        });
+
+        navigate("/");
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    const reader = new FileReader();
+    reader.onload = () => setImageUrl(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div>
       <div className="form-container">
-        <img src={logo} alt="logo" />
+        <img src={logo} alt="logo" className="logo" />
         <form className="form" onSubmit={handleSubmit}>
           <h1>Sign Up</h1>
+          <label className="image-label">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              ref={fileInputRef}
+              id="image-input"
+            />
+            {imageUrl ? (
+              <img src={imageUrl} className="profile-image" alt="userImg" />
+            ) : (
+              <img src={userImg} className="profile-image" alt="userImg" />
+            )}
+          </label>
           <input
             className="input"
             type="text"
@@ -114,7 +119,6 @@ const signUp = () => {
             value={repeatPassword}
             onChange={(e) => setRepeatPassword(e.target.value)}
           />
-          <input type="file" onChange={(e) => setImage(e.target.value)} />
           <button type="submit" className="button">
             Create an account
           </button>
