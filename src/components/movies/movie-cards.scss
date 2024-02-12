@@ -116,7 +116,7 @@
   }
 
   .title {
-    width: 256px;
+    width: 100%;
   }
 }
 
@@ -128,8 +128,12 @@
   }
 
   .title {
-    width: 150px;
+    width: 100%;
   }
+}
+
+.imdb {
+  font-size: 13px;
 }
 
 @include respond-to(1440px) {
