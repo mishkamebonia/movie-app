@@ -18,7 +18,6 @@
 
   .image-label,
   .profile-image {
-    display: block;
     width: 128px;
     height: 128px;
     border-radius: 100%;
@@ -26,11 +25,17 @@
   }
 
   .image-label {
+    display: block;
     margin: 0 auto;
     margin-bottom: 40px;
   }
 
   .profile-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $red;
+    border: 1px solid $pureWhite;
     margin: 0 auto;
     object-fit: cover;
     margin-bottom: 14px;
