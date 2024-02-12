@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../Search";
-import "../../scss/buttons.scss";
-import "../../components/movies/movie-cards.scss";
 import { Pagination } from "@mui/material";
 import Loader from "../Loader";
 import { Skeleton } from "@mui/material";
 import noImage from "../../assets/no-image.jpeg";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
-import { db, storage } from "../../config/firebase";
 import imdb from "../../functions/imdb";
+import "../../scss/pagitation.scss";
+import "../../scss/cards.scss";
+import { useAuthContext } from "../../providers/auth";
+import bookmarked from "../../functions/bookmarked";
 
 const Page = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
+  const { user } = useAuthContext();
 
   const [movieList, setMovieList] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -58,23 +58,56 @@ const Page = (props) => {
     });
   };
 
-  const handleBookmarked = async (e, uid, movieId, title, imageURL) => {
-    e.preventDefault();
+  // const handleBookmarked = async (
+  //   uid,
+  //   type,
+  //   movieId,
+  //   title,
+  //   imdb,
+  //   date,
+  //   poster
+  // ) => {
+  //   try {
+  //     const docRef = doc(db, "usersBookmarked", `${uid}_${movieId}`);
+  //     const docSnapshot = await getDoc(docRef);
 
-    try {
-      // Add bookmarked movie data to Firestore
-      await setDoc(doc(db, "usersBookmarked", uid + "_" + movieId), {
-        uid: uid,
-        movieId: movieId,
-        title: title,
-        imageURL: imageURL, // Assuming this is the URL of the uploaded image
-      });
+  //     if (docSnapshot.exists()) {
+  //       // The movie is already bookmarked, so remove it
+  //       await deleteDoc(docRef);
+  //       console.log("Movie removed from bookmarks successfully!");
+  //     } else {
+  //       // The movie is not bookmarked, so add it
+  //       await setDoc(docRef, {
+  //         uid: uid,
+  //         type: type,
+  //         movieId: movieId,
+  //         title: title,
+  //         imdb: imdb,
+  //         date: date,
+  //         poster: poster,
+  //       });
+  //       console.log("Movie bookmarked successfully!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error bookmarking movie: ", error);
+  //   }
+  //   // try {
+  //   //   // Add bookmarked movie data to Firestore
+  //   //   await setDoc(doc(db, "usersBookmarked", uid + "_" + movieId), {
+  //   //     uid: uid,
+  //   //     type: type,
+  //   //     movieId: movieId,
+  //   //     title: title,
+  //   //     imdb: imdb,
+  //   //     date: date,
+  //   //     poster: poster,
+  //   //   });
 
-      console.log("Movie bookmarked successfully!");
-    } catch (error) {
-      console.error("Error bookmarking movie: ", error);
-    }
-  };
+  //   //   console.log("Movie bookmarked successfully!");
+  //   // } catch (error) {
+  //   //   console.error("Error bookmarking movie: ", error);
+  //   // }
+  // };
 
   // if (loading) {
   //   return <Loader />;
@@ -89,7 +122,7 @@ const Page = (props) => {
         placeholder={placeholder}
       />
       <div className="content">
-        <div className="backdrop-card">
+        <div className="card">
           <h1>{title}</h1>
           <div className="movies-row">
             {movieList &&
@@ -118,12 +151,23 @@ const Page = (props) => {
                     <button
                       type="button"
                       style={{ zIndex: 100 }}
-                      onClick={handleBookmarked}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await bookmarked(
+                          user.uid,
+                          title,
+                          movie.id,
+                          movie.title || movie.name,
+                          movie.vote_average,
+                          movie.release_date || movie.first_air_date,
+                          movie.backdrop_path
+                        );
+                      }}
                       className="bookmark"
                     >
                       <i className="fa-regular fa-bookmark"></i>
                     </button>
-                    <div className="row">
+                    <div className="description-row">
                       <p className="imdb">{imdb(movie.vote_average)}</p>
                       <p className="light-text date">
                         {new Date(movie.release_date).getFullYear() ||
