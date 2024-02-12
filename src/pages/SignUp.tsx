@@ -88,7 +88,9 @@ const signUp = () => {
             {imageUrl ? (
               <img src={imageUrl} className="profile-image" alt="userImg" />
             ) : (
-              <img src={userImg} className="profile-image" alt="userImg" />
+              <div className="profile-image">
+                <p className="profile-image-text">Upload photo</p>
+              </div>
             )}
           </label>
           <input
