@@ -32,11 +32,16 @@
   }
 
   .description-row {
-    margin-top: 15px;
+    margin: 15px 0 3px;
     display: flex;
     justify-content: space-between;
     align-items: start;
     flex-wrap: wrap;
+  }
+
+  .rating-row {
+    display: flex;
+    align-items: center;
   }
 
   .title {
