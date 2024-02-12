@@ -5,11 +5,17 @@ import { useEffect, useState } from "react";
 import { posterApi } from "../config/movieApi";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../providers/auth";
+import imdb from "../functions/imdb";
+import noImage from "../assets/no-image.jpeg";
+import { routes } from "../App";
+import "../scss/cards.scss";
+import "../scss/buttons.scss";
 
 const Bookmarked = () => {
   const { user } = useAuthContext();
   const [datas, setDatas] = useState([]);
   const bookmarkedCollectionRef = collection(db, "usersBookmarked");
+  console.log(datas);
 
   useEffect(() => {
     const getTodoList = async () => {
@@ -20,8 +26,11 @@ const Bookmarked = () => {
           .map((doc) => ({
             ...doc.data(),
             id: doc.id,
+            type: doc.data().type,
             movieId: doc.data().movieId,
-            imageUrl: doc.data().imageURL,
+            poster: doc.data().poster,
+            imdb: doc.data().imdb,
+            date: doc.data().date,
             title: doc.data().title,
           }));
         setDatas(filteredData);
@@ -35,20 +44,54 @@ const Bookmarked = () => {
     }
   }, [user]);
 
+  const handleBookmarked = (e) => {
+    e.preventDefault();
+  };
+
+  console.log(datas);
+
   return (
     <main>
       <Search placeholder="Search for bookmarked shows" />
-      <h1>bookmarked page</h1>
-      {datas.map((data) => (
-        <Link to={`/movies/${data.movieId}`} key={data.id}>
-          <p>{data.imageURL}</p>
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${data.imageURL}`}
-            alt=""
-          />
-          <p>User ID: {data.uid}</p>
-        </Link>
-      ))}
+      <div className="card">
+        <h1>bookmarked page</h1>
+        <div className="movies-row">
+          {datas.map((data) => (
+            <Link
+              to={`${data.type === "Movies" ? routes.movies : routes.series}${
+                data.movieId
+              }`}
+              key={data.movieId}
+              className="movies"
+              style={{ zIndex: 1 }}
+            >
+              <img
+                src={`${posterApi}${data.poster}`}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = noImage;
+                }}
+              />
+              <button
+                type="button"
+                style={{ zIndex: 100 }}
+                onClick={handleBookmarked}
+                className="bookmark"
+              >
+                <i className="fa-regular fa-bookmark"></i>
+              </button>
+              <div className="description-row">
+                <p className="imdb">{imdb(data.imdb)}</p>
+                <p className="light-text date">
+                  {new Date(data.date).getFullYear() ||
+                    new Date(data.first_air_date).getFullYear()}
+                </p>
+              </div>
+              <h4 className="title">{data.title}</h4>
+            </Link>
+          ))}
+        </div>
+      </div>
     </main>
   );
 };
