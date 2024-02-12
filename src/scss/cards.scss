@@ -1,0 +1,65 @@
+@import "./colors.scss";
+@import "./mediaQueries.scss";
+
+.card {
+  margin-bottom: 50px;
+
+  img {
+    display: block;
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  a {
+    color: $pureWhite;
+  }
+
+  .movies-row {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .movies {
+    position: relative;
+  }
+
+  .bookmark {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+  }
+
+  .description-row {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    height: 45px;
+    overflow: hidden;
+  }
+
+  .date {
+    border: 1px solid $pureWhite;
+    border-radius: 2px;
+    padding: 3px 5px;
+  }
+
+  .imdb {
+    font-size: 13px;
+  }
+}
+
+@include respond-to(1440px) {
+  .card,
+  .poster-card {
+    .movies-row {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
