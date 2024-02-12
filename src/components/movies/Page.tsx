@@ -9,7 +9,8 @@ import { Skeleton } from "@mui/material";
 import noImage from "../../assets/no-image.jpeg";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { db, storage } from "../../config/firebase"; // Assuming you have access to Firebase storage and Firestore
+import { db, storage } from "../../config/firebase";
+import imdb from "../../functions/imdb";
 
 const Page = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
@@ -22,6 +23,7 @@ const Page = (props) => {
   const searchParams = new URLSearchParams(location.search);
   const pageNumber = parseInt(searchParams.get("page") || "1");
   const query = searchParams.get("query") || "";
+  console.log(movieList);
 
   const getMovie = () => {
     const url = query ? apiSearch : apiUrl;
@@ -56,19 +58,10 @@ const Page = (props) => {
     });
   };
 
-  const handleBookmarked = async (e) => {
+  const handleBookmarked = async (e, uid, movieId, title, imageURL) => {
     e.preventDefault();
+
     try {
-      // Create a unique image name
-      const date = new Date().getTime();
-      const imageRef = ref(storage, `movie/${movieId}_${date}`); // Assuming you want to name the image based on the movie ID and current timestamp
-
-      // Upload the image to Firebase Storage
-      await uploadBytes(imageRef, image);
-
-      // Get the download URL of the uploaded image
-      const imageURL = await getDownloadURL(imageRef);
-
       // Add bookmarked movie data to Firestore
       await setDoc(doc(db, "usersBookmarked", uid + "_" + movieId), {
         uid: uid,
@@ -131,12 +124,13 @@ const Page = (props) => {
                       <i className="fa-regular fa-bookmark"></i>
                     </button>
                     <div className="row">
-                      <p className="title">{movie.title || movie.name}</p>
+                      <p className="imdb">{imdb(movie.vote_average)}</p>
                       <p className="light-text date">
                         {new Date(movie.release_date).getFullYear() ||
                           new Date(movie.first_air_date).getFullYear()}
                       </p>
                     </div>
+                    <h4 className="title">{movie.title || movie.name}</h4>
                   </Link>
                 )
               )}

@@ -6,6 +6,7 @@ import SwiperCore from "swiper/core";
 import "swiper/swiper-bundle.css";
 import "./movie-cards.scss";
 import { Link } from "react-router-dom";
+import imdb from "../../functions/imdb";
 
 SwiperCore.use([Navigation, A11y]);
 
@@ -69,12 +70,13 @@ const Slider = (props) => {
                   />
                 )}
                 <div className="row">
-                  <p className="title">{data.title || data.name}</p>
+                  <p className="imdb">{imdb(data.vote_average)}</p>
                   <p className="light-text date">
                     {new Date(data.release_date).getFullYear() ||
                       new Date(data.first_air_date).getFullYear()}
                   </p>
                 </div>
+                <h4 className="title">{data.title || data.name}</h4>
               </Link>
             </SwiperSlide>
           ) : (
