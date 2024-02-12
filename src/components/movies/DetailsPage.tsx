@@ -85,9 +85,18 @@ const DetailsPage = (props) => {
             </div>
           </div>
           <div>
-            <h1>{link.title || link.name}</h1>
+            <div className="headline-row">
+              <h1>{link.title || link.name}</h1>
+              <button
+                type="button"
+                style={{ zIndex: 100 }}
+                className="bookmark"
+              >
+                <i className="fa-regular fa-bookmark"></i>
+              </button>
+            </div>
             <p>
-              <span>Imdb:</span>
+              <span>IMDB:</span>
               {imdb(link.vote_average)}
             </p>
             {seriesId ? (
