@@ -7,8 +7,9 @@ import Slider from "./Slider";
 import Loader from "../Loader";
 import { movieApi } from "../../config/movieApi";
 import { routes } from "../../App";
-import imdb from "../../functions/imdb";
 import "./DetailsPage.scss";
+import { Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 const DetailsPage = (props) => {
   const { url, videoUrl, route, placeholder } = props;
@@ -97,7 +98,21 @@ const DetailsPage = (props) => {
             </div>
             <p>
               <span>IMDB:</span>
-              {imdb(link.vote_average)}
+              <div className="rating-row">
+                <Rating
+                  style={{ fontSize: "18px", marginRight: "8px" }}
+                  name="half-rating-read"
+                  value={link.vote_average / 2}
+                  precision={0.1}
+                  readOnly
+                  emptyIcon={
+                    <StarIcon style={{ color: "fff" }} fontSize="inherit" />
+                  }
+                />
+                <span className="light-text">
+                  {Math.round(link.vote_average * 10) / 10}
+                </span>
+              </div>
             </p>
             {seriesId ? (
               <p>

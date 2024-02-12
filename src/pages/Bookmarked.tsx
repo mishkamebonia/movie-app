@@ -1,15 +1,16 @@
 import Search from "../components/Search";
-import { doc, getDocs, collection } from "firebase/firestore";
+import { doc, getDocs, collection, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
 import { posterApi } from "../config/movieApi";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../providers/auth";
-import imdb from "../functions/imdb";
 import noImage from "../assets/no-image.jpeg";
 import { routes } from "../App";
 import "../scss/cards.scss";
 import "../scss/buttons.scss";
+import { Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 const Bookmarked = () => {
   const { user } = useAuthContext();
@@ -44,9 +45,16 @@ const Bookmarked = () => {
     }
   }, [user]);
 
-  const handleBookmarked = (e) => {
-    e.preventDefault();
-  };
+  // const handleRemoveFromBookmarked = async (movieId, e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const docRef = doc(db, "usersBookmarked", `${user.uid}_${movieId}`);
+  //     await deleteDoc(docRef);
+  //   } catch (err) {
+  //     console.error("error ", err);
+  //   }
+  // };
 
   console.log(datas);
 
@@ -75,13 +83,42 @@ const Bookmarked = () => {
               <button
                 type="button"
                 style={{ zIndex: 100 }}
-                onClick={handleBookmarked}
+                onClick={async (e) => {
+                  e.preventDefault();
+                  try {
+                    const docRef = doc(
+                      db,
+                      "usersBookmarked",
+                      `${user.uid}_${data.movieId}`
+                    );
+                    await deleteDoc(docRef);
+                    setDatas(
+                      datas.filter((item) => item.movieId !== data.movieId)
+                    );
+                  } catch (err) {
+                    console.error("error", err);
+                  }
+                }}
                 className="bookmark"
               >
                 <i className="fa-regular fa-bookmark"></i>
               </button>
               <div className="description-row">
-                <p className="imdb">{imdb(data.imdb)}</p>
+                <div className="rating-row">
+                  <Rating
+                    style={{ fontSize: "18px", marginRight: "8px" }}
+                    name="half-rating-read"
+                    value={data.imdb / 2}
+                    precision={0.1}
+                    readOnly
+                    emptyIcon={
+                      <StarIcon style={{ color: "fff" }} fontSize="inherit" />
+                    }
+                  />
+                  <span className="light-text">
+                    {Math.round(data.imdb * 10) / 10}
+                  </span>
+                </div>
                 <p className="light-text date">
                   {new Date(data.date).getFullYear() ||
                     new Date(data.first_air_date).getFullYear()}

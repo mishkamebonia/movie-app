@@ -5,11 +5,12 @@ import { Pagination } from "@mui/material";
 import Loader from "../Loader";
 import { Skeleton } from "@mui/material";
 import noImage from "../../assets/no-image.jpeg";
-import imdb from "../../functions/imdb";
 import "../../scss/pagitation.scss";
 import "../../scss/cards.scss";
 import { useAuthContext } from "../../providers/auth";
-import bookmarked from "../../functions/bookmarked";
+import HandleBookmarked from "../../functions/HandleBookmarked";
+import { Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 const Page = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
@@ -58,57 +59,6 @@ const Page = (props) => {
     });
   };
 
-  // const handleBookmarked = async (
-  //   uid,
-  //   type,
-  //   movieId,
-  //   title,
-  //   imdb,
-  //   date,
-  //   poster
-  // ) => {
-  //   try {
-  //     const docRef = doc(db, "usersBookmarked", `${uid}_${movieId}`);
-  //     const docSnapshot = await getDoc(docRef);
-
-  //     if (docSnapshot.exists()) {
-  //       // The movie is already bookmarked, so remove it
-  //       await deleteDoc(docRef);
-  //       console.log("Movie removed from bookmarks successfully!");
-  //     } else {
-  //       // The movie is not bookmarked, so add it
-  //       await setDoc(docRef, {
-  //         uid: uid,
-  //         type: type,
-  //         movieId: movieId,
-  //         title: title,
-  //         imdb: imdb,
-  //         date: date,
-  //         poster: poster,
-  //       });
-  //       console.log("Movie bookmarked successfully!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error bookmarking movie: ", error);
-  //   }
-  //   // try {
-  //   //   // Add bookmarked movie data to Firestore
-  //   //   await setDoc(doc(db, "usersBookmarked", uid + "_" + movieId), {
-  //   //     uid: uid,
-  //   //     type: type,
-  //   //     movieId: movieId,
-  //   //     title: title,
-  //   //     imdb: imdb,
-  //   //     date: date,
-  //   //     poster: poster,
-  //   //   });
-
-  //   //   console.log("Movie bookmarked successfully!");
-  //   // } catch (error) {
-  //   //   console.error("Error bookmarking movie: ", error);
-  //   // }
-  // };
-
   // if (loading) {
   //   return <Loader />;
   // }
@@ -153,7 +103,7 @@ const Page = (props) => {
                       style={{ zIndex: 100 }}
                       onClick={async (e) => {
                         e.preventDefault();
-                        await bookmarked(
+                        await HandleBookmarked(
                           user.uid,
                           title,
                           movie.id,
@@ -168,7 +118,24 @@ const Page = (props) => {
                       <i className="fa-regular fa-bookmark"></i>
                     </button>
                     <div className="description-row">
-                      <p className="imdb">{imdb(movie.vote_average)}</p>
+                      <div className="rating-row">
+                        <Rating
+                          style={{ fontSize: "18px", marginRight: "8px" }}
+                          name="half-rating-read"
+                          value={movie.vote_average / 2}
+                          precision={0.1}
+                          readOnly
+                          emptyIcon={
+                            <StarIcon
+                              style={{ color: "fff" }}
+                              fontSize="inherit"
+                            />
+                          }
+                        />
+                        <span className="light-text">
+                          {Math.round(movie.vote_average * 10) / 10}
+                        </span>
+                      </div>
                       <p className="light-text date">
                         {new Date(movie.release_date).getFullYear() ||
                           new Date(movie.first_air_date).getFullYear()}

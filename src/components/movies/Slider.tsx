@@ -4,15 +4,19 @@ import { Navigation, A11y, Autoplay } from "swiper/modules";
 import { Skeleton } from "@mui/material";
 import SwiperCore from "swiper/core";
 import { Link } from "react-router-dom";
-import imdb from "../../functions/imdb";
 import "swiper/swiper-bundle.css";
 import "../../scss/cards.scss";
 import "../../scss/slider.scss";
+import HandleBookmarked from "../../functions/HandleBookmarked";
+import { useAuthContext } from "../../providers/auth";
+import { Rating } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 SwiperCore.use([Navigation, A11y]);
 
 const Slider = (props) => {
   const { dataApi, title, url, slides, image, autoplay } = props;
+  const { user } = useAuthContext();
 
   const [dataList, setDataList] = useState([]);
   const [swiperInstance, setSwiperInstance] = useState(null);
@@ -73,13 +77,38 @@ const Slider = (props) => {
                 <button
                   type="button"
                   style={{ zIndex: 100 }}
-                  // onClick={handleBookmarked}
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await HandleBookmarked(
+                      user.uid,
+                      title,
+                      data.id,
+                      data.title || data.name,
+                      data.vote_average,
+                      data.release_date || data.first_air_date,
+                      data.backdrop_path
+                    );
+                  }}
                   className="bookmark"
                 >
                   <i className="fa-regular fa-bookmark"></i>
                 </button>
                 <div className="description-row">
-                  <p className="imdb">{imdb(data.vote_average)}</p>
+                  <div className="rating-row">
+                    <Rating
+                      style={{ fontSize: "18px", marginRight: "8px" }}
+                      name="half-rating-read"
+                      value={data.vote_average / 2}
+                      precision={0.1}
+                      readOnly
+                      emptyIcon={
+                        <StarIcon style={{ color: "fff" }} fontSize="inherit" />
+                      }
+                    />
+                    <span className="light-text">
+                      {Math.round(data.vote_average * 10) / 10}
+                    </span>
+                  </div>
                   <p className="light-text date">
                     {new Date(data.release_date).getFullYear() ||
                       new Date(data.first_air_date).getFullYear()}
