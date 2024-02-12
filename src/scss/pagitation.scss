@@ -1,0 +1,21 @@
+@import "./colors.scss";
+
+.pagitation {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+
+  ul {
+    padding: 10px;
+    background: $red;
+    border-radius: 20px;
+  }
+
+  li {
+    border-radius: 5px;
+  }
+
+  button {
+    color: $pureWhite;
+  }
+}
