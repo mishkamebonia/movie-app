@@ -1,0 +1,33 @@
+@import "./colors.scss";
+
+.custom-navigation {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .swiper-btns {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    .swiper-button-prev,
+    .swiper-button-next {
+      position: absolute;
+      display: block;
+      margin-bottom: 25px;
+      width: 30px;
+      height: 10px;
+      --swiper-navigation-size: 18px;
+      color: $pureWhite;
+    }
+
+    .swiper-button-prev {
+      left: -70px;
+    }
+
+    .swiper-button-next {
+      right: 0;
+    }
+  }
+}
