@@ -3,10 +3,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y, Autoplay } from "swiper/modules";
 import { Skeleton } from "@mui/material";
 import SwiperCore from "swiper/core";
-import "swiper/swiper-bundle.css";
-import "./movie-cards.scss";
 import { Link } from "react-router-dom";
 import imdb from "../../functions/imdb";
+import "swiper/swiper-bundle.css";
+import "../../scss/cards.scss";
+import "../../scss/slider.scss";
 
 SwiperCore.use([Navigation, A11y]);
 
@@ -27,7 +28,7 @@ const Slider = (props) => {
   }, []);
 
   return (
-    <section id="tranding" className="poster-card">
+    <section id="tranding" className="card">
       <div className="custom-navigation">
         <Link to={url}>
           <h1>{title}</h1>
@@ -69,7 +70,15 @@ const Slider = (props) => {
                     alt=""
                   />
                 )}
-                <div className="row">
+                <button
+                  type="button"
+                  style={{ zIndex: 100 }}
+                  // onClick={handleBookmarked}
+                  className="bookmark"
+                >
+                  <i className="fa-regular fa-bookmark"></i>
+                </button>
+                <div className="description-row">
                   <p className="imdb">{imdb(data.vote_average)}</p>
                   <p className="light-text date">
                     {new Date(data.release_date).getFullYear() ||
