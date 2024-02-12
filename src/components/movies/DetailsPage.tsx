@@ -7,6 +7,7 @@ import Slider from "./Slider";
 import Loader from "../Loader";
 import { movieApi } from "../../config/movieApi";
 import { routes } from "../../App";
+import imdb from "../../functions/imdb";
 import "./DetailsPage.scss";
 
 const DetailsPage = (props) => {
@@ -85,6 +86,10 @@ const DetailsPage = (props) => {
           </div>
           <div>
             <h1>{link.title || link.name}</h1>
+            <p>
+              <span>Imdb:</span>
+              {imdb(link.vote_average)}
+            </p>
             {seriesId ? (
               <p>
                 <span>Created by: </span>
