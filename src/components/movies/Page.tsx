@@ -11,12 +11,21 @@ import { useAuthContext } from "../../providers/auth";
 import HandleBookmarked from "../../functions/HandleBookmarked";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  deleteDoc,
+} from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 const Page = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
   const { user } = useAuthContext();
 
-  const [movieList, setMovieList] = useState([]);
+  const [datas, setDatas] = useState([]);
+
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -24,7 +33,8 @@ const Page = (props) => {
   const searchParams = new URLSearchParams(location.search);
   const pageNumber = parseInt(searchParams.get("page") || "1");
   const query = searchParams.get("query") || "";
-  console.log(movieList);
+
+  const bookmarkedCollectionRef = collection(db, "usersBookmarked");
 
   const getMovie = () => {
     const url = query ? apiSearch : apiUrl;
@@ -32,7 +42,7 @@ const Page = (props) => {
     fetch(`${url}&page=${pageNumber}&query=${query}`)
       .then((res) => res.json())
       .then((json) => {
-        setMovieList(json.results);
+        setDatas(json.results);
         setLoading(false);
         if (json.total_pages > 500) {
           setTotalPages(500);
@@ -59,9 +69,38 @@ const Page = (props) => {
     });
   };
 
-  // if (loading) {
-  //   return <Loader />;
-  // }
+  useEffect(() => {
+    const getTodoList = async () => {
+      const docSnapshot = await getDoc(bookmarkedCollectionRef);
+
+      try {
+        if (docSnapshot.exists()) {
+          await setDatas(docRef);
+          console.log("Movie removed from bookmarks successfully!");
+        }
+
+        const data = await getDocs(bookmarkedCollectionRef);
+        const filteredData = data.docs
+          .filter((doc) => doc.data().uid === user.uid)
+          .map((doc) => ({
+            ...doc.data(),
+          }));
+        setDatas(filteredData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (user) {
+      getTodoList();
+    }
+  }, [user]);
+
+  console.log(datas);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <main>
@@ -75,8 +114,8 @@ const Page = (props) => {
         <div className="card">
           <h1>{title}</h1>
           <div className="movies-row">
-            {movieList &&
-              movieList.map((movie) =>
+            {datas &&
+              datas.map((data) =>
                 loading ? (
                   <Skeleton
                     sx={{ bgcolor: "grey.900" }}
@@ -86,13 +125,13 @@ const Page = (props) => {
                   />
                 ) : (
                   <Link
-                    to={`${pageUrl}${movie.id}`}
-                    key={movie.id}
+                    to={`${pageUrl}${data.id}`}
+                    key={data.id}
                     className="movies"
                     style={{ zIndex: 1 }}
                   >
                     <img
-                      src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                      src={`https://image.tmdb.org/t/p/w500${data.backdrop_path}`}
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = noImage;
@@ -100,29 +139,37 @@ const Page = (props) => {
                     />
                     <button
                       type="button"
+                      className={
+                        data.active ? "active-bookmark bookmark" : "bookmark"
+                      }
                       style={{ zIndex: 100 }}
                       onClick={async (e) => {
                         e.preventDefault();
                         await HandleBookmarked(
                           user.uid,
                           title,
-                          movie.id,
-                          movie.title || movie.name,
-                          movie.vote_average,
-                          movie.release_date || movie.first_air_date,
-                          movie.backdrop_path
+                          data.id,
+                          data.title || data.name,
+                          data.vote_average,
+                          data.release_date || data.first_air_date,
+                          data.backdrop_path
                         );
                       }}
                       className="bookmark"
                     >
-                      <i className="fa-regular fa-bookmark"></i>
+                      <i
+                        className={
+                          "fa-bookmark " +
+                          (data.active ? "fa-solid" : "fa-regular")
+                        }
+                      ></i>
                     </button>
                     <div className="description-row">
                       <div className="rating-row">
                         <Rating
                           style={{ fontSize: "18px", marginRight: "8px" }}
                           name="half-rating-read"
-                          value={movie.vote_average / 2}
+                          value={data.vote_average / 2}
                           precision={0.1}
                           readOnly
                           emptyIcon={
@@ -133,15 +180,15 @@ const Page = (props) => {
                           }
                         />
                         <span className="light-text">
-                          {Math.round(movie.vote_average * 10) / 10}
+                          {Math.round(data.vote_average * 10) / 10}
                         </span>
                       </div>
                       <p className="light-text date">
-                        {new Date(movie.release_date).getFullYear() ||
-                          new Date(movie.first_air_date).getFullYear()}
+                        {new Date(data.release_date).getFullYear() ||
+                          new Date(data.first_air_date).getFullYear()}
                       </p>
                     </div>
-                    <h4 className="title">{movie.title || movie.name}</h4>
+                    <h4 className="title">{data.title || data.name}</h4>
                   </Link>
                 )
               )}
