@@ -7,10 +7,10 @@ import MenuItem from "@mui/material/MenuItem";
 import "./SideBar.scss";
 import { useAuthContext } from "../providers/auth";
 import { routes } from "../App";
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
-import LocalMoviesRoundedIcon from "@mui/icons-material/LocalMoviesRounded";
-import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
-import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
+import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
+import LocalMoviesSharpIcon from "@mui/icons-material/LocalMoviesSharp";
+import LiveTvSharpIcon from "@mui/icons-material/LiveTvSharp";
+import BookmarkSharpIcon from "@mui/icons-material/BookmarkSharp";
 
 const SideBar = () => {
   const { user, logOut } = useAuthContext();
@@ -44,16 +44,16 @@ const SideBar = () => {
         <img src={logo} alt="logo" />
         <div className="btn-row">
           <NavLink to={routes.home} activeClassName="active-link">
-            <GridViewRoundedIcon className="nav-link" />
+            <GridViewSharpIcon className="nav-link" />
           </NavLink>
           <NavLink to={routes.movies} activeClassName="active-link">
-            <LocalMoviesRoundedIcon className="nav-link" />
+            <LocalMoviesSharpIcon className="nav-link" />
           </NavLink>
           <NavLink to={routes.series} activeClassName="active-link">
-            <LiveTvRoundedIcon className="nav-link" />
+            <LiveTvSharpIcon className="nav-link" />
           </NavLink>
           <NavLink to={routes.bookmarked} activeClassName="active-link">
-            <BookmarkRoundedIcon className="nav-link" />
+            <BookmarkSharpIcon className="nav-link" />
           </NavLink>
         </div>
       </div>
