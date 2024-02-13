@@ -35,6 +35,21 @@
     border-radius: 100%;
     object-fit: cover;
   }
+
+  .nav-link {
+    color: $greyishBlue;
+    transition: $transition;
+
+    &:hover {
+      color: $red;
+    }
+  }
+
+  .active {
+    .nav-link {
+      color: $pureWhite;
+    }
+  }
 }
 
 @include respond-to(375px) {
