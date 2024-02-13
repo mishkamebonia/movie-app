@@ -1,9 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import main from "../assets/main.svg";
-import film from "../assets/film.svg";
-import tv from "../assets/tv.svg";
-import marked from "../assets/marked.svg";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -11,6 +7,10 @@ import MenuItem from "@mui/material/MenuItem";
 import "./SideBar.scss";
 import { useAuthContext } from "../providers/auth";
 import { routes } from "../App";
+import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import LocalMoviesRoundedIcon from "@mui/icons-material/LocalMoviesRounded";
+import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
+import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 
 const SideBar = () => {
   const { user, logOut } = useAuthContext();
@@ -41,21 +41,19 @@ const SideBar = () => {
   return (
     <nav className="side-bar">
       <div className="menu">
-        <NavLink to={routes.home}>
-          <img src={logo} alt="logo" />
-        </NavLink>
+        <img src={logo} alt="logo" />
         <div className="btn-row">
-          <NavLink to={routes.home}>
-            <img src={main} alt="main" />
+          <NavLink to={routes.home} activeClassName="active-link">
+            <GridViewRoundedIcon className="nav-link" />
           </NavLink>
-          <NavLink to={routes.movies}>
-            <img src={film} alt="film" />
+          <NavLink to={routes.movies} activeClassName="active-link">
+            <LocalMoviesRoundedIcon className="nav-link" />
           </NavLink>
-          <NavLink to={routes.series}>
-            <img src={tv} alt="tv" />
+          <NavLink to={routes.series} activeClassName="active-link">
+            <LiveTvRoundedIcon className="nav-link" />
           </NavLink>
-          <NavLink to={routes.bookmarked}>
-            <img src={marked} alt="marked" />
+          <NavLink to={routes.bookmarked} activeClassName="active-link">
+            <BookmarkRoundedIcon className="nav-link" />
           </NavLink>
         </div>
       </div>
