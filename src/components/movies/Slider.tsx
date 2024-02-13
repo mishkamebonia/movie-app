@@ -11,6 +11,7 @@ import HandleBookmarked from "../../functions/HandleBookmarked";
 import { useAuthContext } from "../../providers/auth";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import Loader from "../Loader";
 
 SwiperCore.use([Navigation, A11y]);
 
@@ -76,6 +77,7 @@ const Slider = (props) => {
                 )}
                 <button
                   type="button"
+                  className="bookmark"
                   style={{ zIndex: 100 }}
                   onClick={async (e) => {
                     e.preventDefault();
@@ -89,7 +91,6 @@ const Slider = (props) => {
                       data.backdrop_path
                     );
                   }}
-                  className="bookmark"
                 >
                   <i className="fa-regular fa-bookmark"></i>
                 </button>
