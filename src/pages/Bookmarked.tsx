@@ -9,14 +9,27 @@ import noImage from "../assets/no-image.jpeg";
 import { routes } from "../App";
 import "../scss/cards.scss";
 import "../scss/buttons.scss";
-import { Rating } from "@mui/material";
+import { Rating, Snackbar } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
 const Bookmarked = () => {
   const { user } = useAuthContext();
   const [datas, setDatas] = useState([]);
   const bookmarkedCollectionRef = collection(db, "usersBookmarked");
-  console.log(datas);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [vertical, setVertical] = useState("bottom");
+  const [horizontal, setHorizontal] = useState("right");
+
+  const handleClick = ({ vertical, horizontal }) => {
+    setVertical(vertical);
+    setHorizontal(horizontal);
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
 
   useEffect(() => {
     const getTodoList = async () => {
@@ -26,13 +39,6 @@ const Bookmarked = () => {
           .filter((doc) => doc.data().uid === user.uid)
           .map((doc) => ({
             ...doc.data(),
-            id: doc.id,
-            type: doc.data().type,
-            movieId: doc.data().movieId,
-            poster: doc.data().poster,
-            imdb: doc.data().imdb,
-            date: doc.data().date,
-            title: doc.data().title,
           }));
         setDatas(filteredData);
       } catch (err) {
@@ -45,17 +51,6 @@ const Bookmarked = () => {
     }
   }, [user]);
 
-  // const handleRemoveFromBookmarked = async (movieId, e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const docRef = doc(db, "usersBookmarked", `${user.uid}_${movieId}`);
-  //     await deleteDoc(docRef);
-  //   } catch (err) {
-  //     console.error("error ", err);
-  //   }
-  // };
-
   console.log(datas);
 
   return (
@@ -66,9 +61,11 @@ const Bookmarked = () => {
         <div className="movies-row">
           {datas.map((data) => (
             <Link
-              to={`${data.type === "Movies" ? routes.movies : routes.series}${
-                data.movieId
-              }`}
+              to={`${
+                data.type === "Movies" || data.type === "Popular Movies"
+                  ? routes.movies
+                  : routes.series
+              }${data.movieId}`}
               key={data.movieId}
               className="movies"
               style={{ zIndex: 1 }}
@@ -82,7 +79,12 @@ const Bookmarked = () => {
               />
               <button
                 type="button"
-                style={{ zIndex: 100 }}
+                className={
+                  data.bookmarked ? "active-bookmark bookmark" : "bookmark"
+                }
+                style={{
+                  zIndex: 100,
+                }}
                 onClick={async (e) => {
                   e.preventDefault();
                   try {
@@ -92,6 +94,7 @@ const Bookmarked = () => {
                       `${user.uid}_${data.movieId}`
                     );
                     await deleteDoc(docRef);
+                    handleClick({ vertical: "bottom", horizontal: "right" });
                     setDatas(
                       datas.filter((item) => item.movieId !== data.movieId)
                     );
@@ -99,9 +102,13 @@ const Bookmarked = () => {
                     console.error("error", err);
                   }
                 }}
-                className="bookmark"
               >
-                <i className="fa-regular fa-bookmark"></i>
+                <i
+                  className={
+                    "fa-bookmark " +
+                    (data.bookmarked ? "fa-solid" : "fa-regular")
+                  }
+                ></i>
               </button>
               <div className="description-row">
                 <div className="rating-row">
@@ -112,7 +119,10 @@ const Bookmarked = () => {
                     precision={0.1}
                     readOnly
                     emptyIcon={
-                      <StarIcon style={{ color: "fff" }} fontSize="inherit" />
+                      <StarIcon
+                        style={{ color: "rgb(255, 255, 255)" }}
+                        fontSize="inherit"
+                      />
                     }
                   />
                   <span className="light-text">
@@ -128,6 +138,15 @@ const Bookmarked = () => {
             </Link>
           ))}
         </div>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          key={vertical + horizontal}
+          className="snackbar"
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={handleCloseSnackbar}
+          message="Removed from bookmarks successfully"
+        />
       </div>
     </main>
   );
