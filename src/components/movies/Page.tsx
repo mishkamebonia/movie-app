@@ -98,9 +98,9 @@ const Page = (props) => {
 
   console.log(datas);
 
-  if (loading) {
-    return <Loader />;
-  }
+  // if (loading) {
+  //   return <Loader />;
+  // }
 
   return (
     <main>
