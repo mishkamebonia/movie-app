@@ -5,6 +5,7 @@ import { routes } from "../App";
 const MovieDetail = () => {
   return (
     <DetailsPage
+      type="Movies"
       url={movieUrl}
       videoUrl={videoUrl}
       route={routes.movies}
