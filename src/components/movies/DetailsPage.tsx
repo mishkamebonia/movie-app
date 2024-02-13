@@ -10,11 +10,15 @@ import { routes } from "../../App";
 import "./DetailsPage.scss";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import bookmarked from "../../functions/HandleBookmarked";
+import { useAuthContext } from "../../providers/auth";
 
 const DetailsPage = (props) => {
-  const { url, videoUrl, route, placeholder } = props;
+  const { url, videoUrl, route, placeholder, type } = props;
   const { movieId, seriesId } = useParams();
-  const [link, setLink] = useState(null);
+  const { user } = useAuthContext();
+
+  const [data, setData] = useState(null);
   const [trailerKey, setTrailerKey] = useState(null);
   const [opts, setOpts] = useState({ height: "480", width: "854" });
   const navigate = useNavigate();
@@ -25,7 +29,7 @@ const DetailsPage = (props) => {
 
     fetch(`${url}${id}?api_key=${apiKey}`)
       .then((res) => res.json())
-      .then((data) => setLink(data));
+      .then((data) => setData(data));
 
     fetch(`${url}${id}${videoUrl}`)
       .then((res) => res.json())
@@ -61,7 +65,7 @@ const DetailsPage = (props) => {
     };
   }, []);
 
-  if (!link) {
+  if (!data) {
     return <Loader />;
   }
 
@@ -78,7 +82,7 @@ const DetailsPage = (props) => {
           <div className="row">
             <img
               className="poster"
-              src={`https://image.tmdb.org/t/p/w500${link.poster_path}`}
+              src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
               alt=""
             />
             <div className="trailer">
@@ -87,22 +91,35 @@ const DetailsPage = (props) => {
           </div>
           <div>
             <div className="headline-row">
-              <h1>{link.title || link.name}</h1>
+              <h1>{data.title || data.name}</h1>
               <button
                 type="button"
                 style={{ zIndex: 100 }}
                 className="bookmark"
+                onClick={async (e) => {
+                  e.preventDefault();
+                  await bookmarked(
+                    user.uid,
+                    type,
+                    data.id,
+                    data.title || data.name,
+                    data.vote_average,
+                    data.release_date || data.first_air_date,
+                    data.backdrop_path
+                  );
+                }}
               >
                 <i className="fa-regular fa-bookmark"></i>
               </button>
             </div>
-            <p>
+            <p style={{ display: "flex" }}>
               <span>IMDB:</span>
               <div className="rating-row">
                 <Rating
                   style={{ fontSize: "18px", marginRight: "8px" }}
+                  className="rating"
                   name="half-rating-read"
-                  value={link.vote_average / 2}
+                  value={data.vote_average / 2}
                   precision={0.1}
                   readOnly
                   emptyIcon={
@@ -110,14 +127,14 @@ const DetailsPage = (props) => {
                   }
                 />
                 <span className="light-text">
-                  {Math.round(link.vote_average * 10) / 10}
+                  {Math.round(data.vote_average * 10) / 10}
                 </span>
               </div>
             </p>
             {seriesId ? (
               <p>
                 <span>Created by: </span>
-                {link.created_by.map((author) => (
+                {data.created_by.map((author) => (
                   <a href="#" key={author.id} style={{ marginRight: "8px" }}>
                     {author.name},
                   </a>
@@ -126,7 +143,7 @@ const DetailsPage = (props) => {
             ) : null}
             <p>
               <span>Genres:</span>
-              {link.genres.map((genre) => (
+              {data.genres.map((genre) => (
                 <a href="#" key={genre.id} style={{ marginRight: "8px" }}>
                   {genre.name},
                 </a>
@@ -134,7 +151,7 @@ const DetailsPage = (props) => {
             </p>
             <p>
               <span>Studio:</span>
-              {link.production_companies.map((companie) => (
+              {data.production_companies.map((companie) => (
                 <a href="#" key={companie.id} style={{ marginRight: "8px" }}>
                   {companie.name},
                 </a>
@@ -143,21 +160,21 @@ const DetailsPage = (props) => {
             <p>
               <span>Released date:</span>
               <a href="#">
-                {new Date(link.release_date).getFullYear() |
-                  new Date(link.first_air_date).getFullYear()}
+                {new Date(data.release_date).getFullYear() |
+                  new Date(data.first_air_date).getFullYear()}
               </a>
             </p>
             <p>
               {movieId ? (
                 <p>
                   <span>Duration:</span>
-                  {link.runtime} min
+                  {data.runtime} min
                 </p>
               ) : null}
             </p>
             <p>
               <span>Language:</span>
-              {link.spoken_languages.map((lang) => (
+              {data.spoken_languages.map((lang) => (
                 <a href="#" key={lang.id} style={{ marginRight: "8px" }}>
                   {lang.english_name},
                 </a>
@@ -165,7 +182,7 @@ const DetailsPage = (props) => {
             </p>
             <p>
               <span>Country:</span>
-              {link.production_countries.map((country) => (
+              {data.production_countries.map((country) => (
                 <a href="#" key={country.id} style={{ marginRight: "8px" }}>
                   {country.name},
                 </a>
@@ -175,11 +192,11 @@ const DetailsPage = (props) => {
               <>
                 <p>
                   <span>Budget:</span>
-                  {link.budget}
+                  {data.budget}
                 </p>
                 <p>
                   <span>Revenue:</span>
-                  {link.revenue}
+                  {data.revenue}
                 </p>
               </>
             ) : null}
@@ -187,17 +204,17 @@ const DetailsPage = (props) => {
               <>
                 <p>
                   <span>Episodes:</span>
-                  {link.number_of_episodes}
+                  {data.number_of_episodes}
                 </p>
                 <p>
                   <span>Seasones:</span>
-                  {link.number_of_seasons}
+                  {data.number_of_seasons}
                 </p>
               </>
             ) : null}
             <div className="description">
               <h4>The story:</h4>
-              <p>{link.overview}</p>
+              <p>{data.overview}</p>
             </div>
           </div>
         </div>
