@@ -18,7 +18,7 @@ const bookmarked = async (uid, type, movieId, title, imdb, date, poster) => {
         imdb: imdb,
         date: date,
         poster: poster,
-        active: true
+        bookmarked: true
       });
       console.log("Movie bookmarked successfully!");
     }
