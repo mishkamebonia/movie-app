@@ -3,7 +3,7 @@ import { doc, getDocs, collection, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
 import { posterApi } from "../config/movieApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../providers/auth";
 import noImage from "../assets/no-image.jpeg";
 import { routes } from "../App";
@@ -16,6 +16,8 @@ const Bookmarked = () => {
   const { user } = useAuthContext();
   const [datas, setDatas] = useState([]);
   const bookmarkedCollectionRef = collection(db, "usersBookmarked");
+
+  const navigation = useNavigate();
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [vertical, setVertical] = useState("bottom");
@@ -55,7 +57,12 @@ const Bookmarked = () => {
 
   return (
     <main>
-      <Search placeholder="Search for bookmarked shows" />
+      <Search
+        placeholder="Search for bookmarked shows"
+        onSearch={(searchString) => {
+          navigate(`${location.pathname}?query=${searchString}`);
+        }}
+      />
       <div className="card">
         <h1>bookmarked page</h1>
         <div className="movies-row">
@@ -137,16 +144,16 @@ const Bookmarked = () => {
               <h4 className="title">{data.title}</h4>
             </Link>
           ))}
+          <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            key={vertical + horizontal}
+            className="snackbar"
+            open={openSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            message="Removed from bookmarks successfully"
+          />
         </div>
-        <Snackbar
-          anchorOrigin={{ vertical, horizontal }}
-          key={vertical + horizontal}
-          className="snackbar"
-          open={openSnackbar}
-          autoHideDuration={3000}
-          onClose={handleCloseSnackbar}
-          message="Removed from bookmarks successfully"
-        />
       </div>
     </main>
   );
