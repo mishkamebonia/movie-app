@@ -11,7 +11,6 @@ import HandleBookmarked from "../../functions/HandleBookmarked";
 import { useAuthContext } from "../../providers/auth";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import Loader from "../Loader";
 
 SwiperCore.use([Navigation, A11y]);
 
@@ -25,7 +24,9 @@ const Slider = (props) => {
   const getData = () => {
     fetch(dataApi)
       .then((res) => res.json())
-      .then((json) => setDataList(json.results));
+      .then((json) => {
+        setDataList(json.results);
+      });
   };
 
   useEffect(() => {
