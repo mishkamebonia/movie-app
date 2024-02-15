@@ -43,16 +43,16 @@ const SideBar = () => {
       <div className="menu">
         <img src={logo} alt="logo" />
         <div className="btn-row">
-          <NavLink to={routes.home} activeClassName="active-link">
+          <NavLink to={routes.home} activeclassname="active-link">
             <GridViewSharpIcon className="nav-link" />
           </NavLink>
-          <NavLink to={routes.movies} activeClassName="active-link">
+          <NavLink to={routes.movies} activeclassname="active-link">
             <LocalMoviesSharpIcon className="nav-link" />
           </NavLink>
-          <NavLink to={routes.series} activeClassName="active-link">
+          <NavLink to={routes.series} activeclassname="active-link">
             <LiveTvSharpIcon className="nav-link" />
           </NavLink>
-          <NavLink to={routes.bookmarked} activeClassName="active-link">
+          <NavLink to={routes.bookmarked} activeclassname="active-link">
             <BookmarkSharpIcon className="nav-link" />
           </NavLink>
         </div>
