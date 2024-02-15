@@ -69,32 +69,32 @@ const Page = (props) => {
     });
   };
 
-  useEffect(() => {
-    const getTodoList = async () => {
-      const docSnapshot = await getDoc(bookmarkedCollectionRef);
+  // useEffect(() => {
+  //   const getTodoList = async () => {
+  //     const docSnapshot = await getDoc(bookmarkedCollectionRef);
 
-      try {
-        if (docSnapshot.exists()) {
-          await setDatas(docRef);
-          console.log("Movie removed from bookmarks successfully!");
-        }
+  //     try {
+  //       if (docSnapshot.exists()) {
+  //         await setDatas(docRef);
+  //         console.log("Movie removed from bookmarks successfully!");
+  //       }
 
-        const data = await getDocs(bookmarkedCollectionRef);
-        const filteredData = data.docs
-          .filter((doc) => doc.data().uid === user.uid)
-          .map((doc) => ({
-            ...doc.data(),
-          }));
-        setDatas(filteredData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  //       const data = await getDocs(bookmarkedCollectionRef);
+  //       const filteredData = data.docs
+  //         .filter((doc) => doc.data().uid === user.uid)
+  //         .map((doc) => ({
+  //           ...doc.data(),
+  //         }));
+  //       setDatas(filteredData);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
 
-    if (user) {
-      getTodoList();
-    }
-  }, [user]);
+  //   if (user) {
+  //     getTodoList();
+  //   }
+  // }, [user]);
 
   console.log(datas);
 
@@ -155,7 +155,6 @@ const Page = (props) => {
                           data.backdrop_path
                         );
                       }}
-                      className="bookmark"
                     >
                       <i
                         className={
