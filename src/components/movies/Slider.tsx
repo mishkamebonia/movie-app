@@ -11,6 +11,7 @@ import HandleBookmarked from "../../functions/HandleBookmarked";
 import { useAuthContext } from "../../providers/auth";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useFetchBookmarks } from "../../queries/useFetchBookmarks";
 
 SwiperCore.use([Navigation, A11y]);
 
@@ -20,6 +21,8 @@ const Slider = (props) => {
 
   const [dataList, setDataList] = useState([]);
   const [swiperInstance, setSwiperInstance] = useState(null);
+
+  const bookmarkedMovies = useFetchBookmarks();
 
   const getData = () => {
     fetch(dataApi)
@@ -32,6 +35,12 @@ const Slider = (props) => {
   useEffect(() => {
     getData();
   }, []);
+
+  function isBookmarked(id) {
+    return bookmarkedMovies.some(
+      (bookmarkedMovie) => bookmarkedMovie.movieId === id
+    );
+  }
 
   return (
     <section id="tranding" className="card">
@@ -78,7 +87,11 @@ const Slider = (props) => {
                 )}
                 <button
                   type="button"
-                  className="bookmark"
+                  className={
+                    isBookmarked(data.id)
+                      ? "active-bookmark bookmark"
+                      : "bookmark"
+                  }
                   style={{ zIndex: 100 }}
                   onClick={async (e) => {
                     e.preventDefault();
