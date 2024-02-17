@@ -223,7 +223,7 @@ const DetailsPage = (props) => {
         dataApi={movieApi}
         title="Popular Movies"
         url={routes.movies}
-        slides="3"
+        slides="4"
         image="backdrop"
         autoplay={true}
       />
