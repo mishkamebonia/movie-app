@@ -11,13 +11,12 @@ import "../scss/cards.scss";
 import "../scss/buttons.scss";
 import { Rating, Snackbar } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import { useFetchBookmarks } from "../queries/useFetchBookmarks";
 
 const Bookmarked = () => {
   const { user } = useAuthContext();
-  const [datas, setDatas] = useState([]);
-  const bookmarkedCollectionRef = collection(db, "usersBookmarked");
-
-  const navigation = useNavigate();
+  const datas = useFetchBookmarks();
+  const navigate = useNavigate();
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [vertical, setVertical] = useState("bottom");
@@ -32,26 +31,6 @@ const Bookmarked = () => {
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
-
-  useEffect(() => {
-    const getTodoList = async () => {
-      try {
-        const data = await getDocs(bookmarkedCollectionRef);
-        const filteredData = data.docs
-          .filter((doc) => doc.data().uid === user.uid)
-          .map((doc) => ({
-            ...doc.data(),
-          }));
-        setDatas(filteredData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    if (user) {
-      getTodoList();
-    }
-  }, [user]);
 
   console.log(datas);
 
