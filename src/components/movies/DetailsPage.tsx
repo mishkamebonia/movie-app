@@ -10,8 +10,9 @@ import { routes } from "../../App";
 import "./DetailsPage.scss";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import bookmarked from "../../functions/HandleBookmarked";
+import bookmarked from "../../functions/handleBookmarked";
 import { useAuthContext } from "../../providers/auth";
+import { useFetchBookmarks } from "../../queries/useFetchBookmarks";
 
 const DetailsPage = (props) => {
   const { url, videoUrl, route, placeholder, type } = props;
@@ -19,6 +20,7 @@ const DetailsPage = (props) => {
   const { user } = useAuthContext();
 
   const [data, setData] = useState(null);
+  const bookmarkedData = useFetchBookmarks();
   const [trailerKey, setTrailerKey] = useState(null);
   const [opts, setOpts] = useState({ height: "480", width: "854" });
   const navigate = useNavigate();
@@ -65,6 +67,10 @@ const DetailsPage = (props) => {
     };
   }, []);
 
+  function isBookmarked(id) {
+    return bookmarkedData.some((data) => data.movieId === id);
+  }
+
   if (!data) {
     return <Loader />;
   }
@@ -95,7 +101,11 @@ const DetailsPage = (props) => {
               <button
                 type="button"
                 style={{ zIndex: 100 }}
-                className="bookmark"
+                className={
+                  isBookmarked(data.id)
+                    ? "active-bookmark bookmark"
+                    : "bookmark"
+                }
                 onClick={async (e) => {
                   e.preventDefault();
                   await bookmarked(
@@ -109,7 +119,12 @@ const DetailsPage = (props) => {
                   );
                 }}
               >
-                <i className="fa-regular fa-bookmark"></i>
+                <i
+                  className={
+                    "fa-bookmark " +
+                    (isBookmarked(data.id) ? "fa-solid" : "fa-regular")
+                  }
+                ></i>
               </button>
             </div>
             <p style={{ display: "flex" }}>
