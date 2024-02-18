@@ -1,6 +1,7 @@
 export interface Bookmark {
   bookmarked: boolean;
   date: string;
+  first_air_date: string;
   imdb: number;
   movieId: number;
   poster: string;
@@ -8,7 +9,6 @@ export interface Bookmark {
   type: string;
   uid: string;
 }
-
 
 export interface Movie {
   adult: boolean;
@@ -25,6 +25,14 @@ export interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+}
+
+export interface DetailPage {
+  title: string;
+  apiUrl: string;
+  apiSearch: string;
+  pageUrl: string;
+  placeholder: string;
 }
 
 export type MovieResponse<T> = {
