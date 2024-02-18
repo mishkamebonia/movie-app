@@ -1,5 +1,5 @@
 import Search from "../components/Search";
-import { doc, getDocs, collection, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
 import { posterApi } from "../config/movieApi";
@@ -12,19 +12,17 @@ import "../scss/buttons.scss";
 import { Rating, Snackbar } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useFetchBookmarks } from "../queries/useFetchBookmarks";
+import { Bookmark } from "../@types";
 
 const Bookmarked = () => {
-  const { user } = useAuthContext();
   const datas = useFetchBookmarks();
+  const { user } = useAuthContext();
   const navigate = useNavigate();
+  const [moviesData, setMoviesData] = useState<Bookmark[]>([]);
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [vertical, setVertical] = useState("bottom");
-  const [horizontal, setHorizontal] = useState("right");
 
-  const handleClick = ({ vertical, horizontal }) => {
-    setVertical(vertical);
-    setHorizontal(horizontal);
+  const handleClick = () => {
     setOpenSnackbar(true);
   };
 
@@ -32,20 +30,22 @@ const Bookmarked = () => {
     setOpenSnackbar(false);
   };
 
-  console.log(datas);
+  useEffect(() => {
+    setMoviesData(datas);
+  }, [datas]);
 
   return (
     <main>
       <Search
         placeholder="Search for bookmarked shows"
-        onSearch={(searchString) => {
+        onSearch={(searchString: string) => {
           navigate(`${location.pathname}?query=${searchString}`);
         }}
       />
       <div className="card">
         <h1>bookmarked page</h1>
         <div className="movies-row">
-          {datas.map((data) => (
+          {moviesData.map((data) => (
             <Link
               to={`${
                 data.type === "Movies" || data.type === "Popular Movies"
@@ -77,12 +77,13 @@ const Bookmarked = () => {
                     const docRef = doc(
                       db,
                       "usersBookmarked",
-                      `${user.uid}_${data.movieId}`
+                      `${user?.uid}_${data.movieId}`
                     );
                     await deleteDoc(docRef);
-                    handleClick({ vertical: "bottom", horizontal: "right" });
-                    setDatas(
-                      datas.filter((item) => item.movieId !== data.movieId)
+                    handleClick();
+
+                    setMoviesData(
+                      moviesData.filter((item) => item.movieId !== data.movieId)
                     );
                   } catch (err) {
                     console.error("error", err);
@@ -124,8 +125,7 @@ const Bookmarked = () => {
             </Link>
           ))}
           <Snackbar
-            anchorOrigin={{ vertical, horizontal }}
-            key={vertical + horizontal}
+            anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             className="snackbar"
             open={openSnackbar}
             autoHideDuration={3000}
