@@ -8,13 +8,14 @@ import noImage from "../../assets/no-image.jpeg";
 import "../../scss/pagitation.scss";
 import "../../scss/cards.scss";
 import { useAuthContext } from "../../providers/auth";
-import HandleBookmarked from "../../functions/HandleBookmarked";
+import HandleBookmarked from "../../functions/handleBookmarked";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Movie, MovieResponse } from "../../@types";
 import { useFetchBookmarks } from "../../queries/useFetchBookmarks";
+import { DetailPage } from "../../@types";
 
-const Page = (props) => {
+const Page: React.FC<DetailPage> = (props) => {
   const { title, apiUrl, apiSearch, placeholder, pageUrl } = props;
   const { user } = useAuthContext();
 
@@ -28,8 +29,6 @@ const Page = (props) => {
   const query = searchParams.get("query") || "";
 
   const bookmarkedMovies = useFetchBookmarks();
-
-  console.log("bookmarked movies: ", bookmarkedMovies);
 
   const getMovie = () => {
     const url = query ? apiSearch : apiUrl;
@@ -55,7 +54,7 @@ const Page = (props) => {
     getMovie();
   }, [pageNumber, query]);
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (event: object, value: number) => {
     navigate(`${location.pathname}?page=${value}&query=${query}`);
 
     window.scrollTo({
@@ -64,7 +63,7 @@ const Page = (props) => {
     });
   };
 
-  function isBookmarked(id) {
+  function isBookmarked(id: number) {
     return bookmarkedMovies.some(
       (bookmarkedMovie) => bookmarkedMovie.movieId === id
     );
@@ -73,7 +72,7 @@ const Page = (props) => {
   return (
     <main>
       <Search
-        onSearch={(searchString) => {
+        onSearch={(searchString: string) => {
           navigate(`${location.pathname}?query=${searchString}`);
         }}
         placeholder={placeholder}
@@ -81,7 +80,7 @@ const Page = (props) => {
       <div className="content">
         <div className="card">
           <h1>{title}</h1>
-          <div className="movies-row">
+          <div className="movies-row" key={`page-${pageNumber}`}>
             {movies.map((data) =>
               loading ? (
                 <Skeleton
@@ -115,7 +114,7 @@ const Page = (props) => {
                     onClick={async (e) => {
                       e.preventDefault();
                       await HandleBookmarked(
-                        user.uid,
+                        user?.uid,
                         title,
                         data.id,
                         data.title || data.name,
@@ -128,7 +127,7 @@ const Page = (props) => {
                     <i
                       className={
                         "fa-bookmark " +
-                        (data.active ? "fa-solid" : "fa-regular")
+                        (isBookmarked(data.id) ? "fa-solid" : "fa-regular")
                       }
                     ></i>
                   </button>
