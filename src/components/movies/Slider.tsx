@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import "swiper/swiper-bundle.css";
 import "../../scss/cards.scss";
 import "../../scss/slider.scss";
-import HandleBookmarked from "../../functions/HandleBookmarked";
+import HandleBookmarked from "../../functions/handleBookmarked";
 import { useAuthContext } from "../../providers/auth";
 import { Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
@@ -106,7 +106,12 @@ const Slider = (props) => {
                     );
                   }}
                 >
-                  <i className="fa-regular fa-bookmark"></i>
+                  <i
+                    className={
+                      "fa-bookmark " +
+                      (isBookmarked(data.id) ? "fa-solid" : "fa-regular")
+                    }
+                  ></i>
                 </button>
                 <div className="description-row">
                   <div className="rating-row">
