@@ -3,15 +3,17 @@
 .details-page {
   margin-bottom: 50px;
 
-  a {
-    color: $red;
-  }
-  span {
-    margin-right: 10px;
-  }
-  p {
-    margin-top: 15px;
-    font-weight: 300;
+  .description {
+    a {
+      color: $red;
+    }
+    span {
+      margin-right: 10px;
+    }
+    p {
+      margin-top: 15px;
+      font-weight: 300;
+    }
   }
 
   .rating-row {
@@ -43,7 +45,7 @@
     }
   }
 
-  .row {
+  .movie-row {
     display: flex;
     align-items: center;
     gap: 50px;
