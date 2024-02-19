@@ -10,20 +10,24 @@ export function useFetchBookmarks() {
   const [bookmarkedMovies, setBookmarkedMovies] = useState<Bookmark[]>([]);
   const { user } = useAuthContext();
 
+  const fetchBookmarks = async () => {
+    const data = await getDocs(bookmarkedCollectionRef);
+    const filteredData: Bookmark[] = data.docs
+      .filter((doc) => doc.data().uid === user?.uid)
+      .map(
+        (doc) =>
+          ({
+            ...doc.data(),
+          } as Bookmark)
+      );
+    setBookmarkedMovies(filteredData);
+  };
+
   useEffect(() => {
     if (user) {
       const getBookmarks = async () => {
         try {
-          const data = await getDocs(bookmarkedCollectionRef);
-          const filteredData: Bookmark[] = data.docs
-            .filter((doc) => doc.data().uid === user.uid)
-            .map(
-              (doc) =>
-                ({
-                  ...doc.data(),
-                } as Bookmark)
-            );
-          setBookmarkedMovies(filteredData);
+          fetchBookmarks();
         } catch (err) {
           console.error(err);
         }
@@ -33,5 +37,5 @@ export function useFetchBookmarks() {
     }
   }, [user]);
 
-  return bookmarkedMovies;
+  return [bookmarkedMovies, fetchBookmarks] as const;
 }
