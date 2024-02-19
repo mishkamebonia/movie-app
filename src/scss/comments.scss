@@ -1,0 +1,13 @@
+.commentsSection {
+  margin-top: 50px;
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  input {
+    width: 500px;
+  }
+}
