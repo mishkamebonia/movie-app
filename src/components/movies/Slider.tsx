@@ -22,7 +22,7 @@ const Slider = (props) => {
   const [dataList, setDataList] = useState([]);
   const [swiperInstance, setSwiperInstance] = useState(null);
 
-  const bookmarkedMovies = useFetchBookmarks();
+  const [bookmarkedMovies, fetchBookmarks] = useFetchBookmarks();
 
   const getData = () => {
     fetch(dataApi)
@@ -103,7 +103,7 @@ const Slider = (props) => {
                       data.vote_average,
                       data.release_date || data.first_air_date,
                       data.backdrop_path
-                    );
+                    ).then(() => fetchBookmarks());
                   }}
                 >
                   <i
