@@ -15,7 +15,7 @@ import { useFetchBookmarks } from "../queries/useFetchBookmarks";
 import { Bookmark } from "../@types";
 
 const Bookmarked = () => {
-  const datas = useFetchBookmarks();
+  const [datas] = useFetchBookmarks();
   const { user } = useAuthContext();
   const navigate = useNavigate();
   const [moviesData, setMoviesData] = useState<Bookmark[]>([]);
