@@ -28,7 +28,7 @@ const Page: React.FC<DetailPage> = (props) => {
   const pageNumber = parseInt(searchParams.get("page") || "1");
   const query = searchParams.get("query") || "";
 
-  const bookmarkedMovies = useFetchBookmarks();
+  const [bookmarkedMovies, fetchBookmarks] = useFetchBookmarks();
 
   const getMovie = () => {
     const url = query ? apiSearch : apiUrl;
@@ -63,11 +63,11 @@ const Page: React.FC<DetailPage> = (props) => {
     });
   };
 
-  function isBookmarked(id: number) {
+  const isBookmarked = (id: number) => {
     return bookmarkedMovies.some(
       (bookmarkedMovie) => bookmarkedMovie.movieId === id
     );
-  }
+  };
 
   return (
     <main>
@@ -121,7 +121,7 @@ const Page: React.FC<DetailPage> = (props) => {
                         data.vote_average,
                         data.release_date || data.first_air_date,
                         data.backdrop_path
-                      );
+                      ).then(() => fetchBookmarks());
                     }}
                   >
                     <i
