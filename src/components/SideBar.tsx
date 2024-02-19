@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import "./SideBar.scss";
+import "../scss/images.scss";
 import { useAuthContext } from "../providers/auth";
 import { routes } from "../App";
 import GridViewSharpIcon from "@mui/icons-material/GridViewSharp";
