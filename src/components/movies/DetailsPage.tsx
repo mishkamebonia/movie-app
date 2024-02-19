@@ -13,6 +13,7 @@ import StarIcon from "@mui/icons-material/Star";
 import bookmarked from "../../functions/handleBookmarked";
 import { useAuthContext } from "../../providers/auth";
 import { useFetchBookmarks } from "../../queries/useFetchBookmarks";
+import Comments from "../Comments";
 
 const DetailsPage = (props) => {
   const { url, videoUrl, route, placeholder, type } = props;
@@ -20,7 +21,7 @@ const DetailsPage = (props) => {
   const { user } = useAuthContext();
 
   const [data, setData] = useState(null);
-  const bookmarkedData = useFetchBookmarks();
+  const [bookmarkedData, fetchBookmarks] = useFetchBookmarks();
   const [trailerKey, setTrailerKey] = useState(null);
   const [opts, setOpts] = useState({ height: "480", width: "854" });
   const navigate = useNavigate();
@@ -85,17 +86,17 @@ const DetailsPage = (props) => {
           }}
         />
         <div className="details-page">
-          <div className="row">
+          <div className="movie-row">
             <img
               className="poster"
               src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
               alt=""
             />
-            <div className="trailer">
+            {/* <div className="trailer">
               {trailerKey && <YouTube videoId={trailerKey} opts={opts} />}
-            </div>
+            </div> */}
           </div>
-          <div>
+          <div className="description">
             <div className="headline-row">
               <h1>{data.title || data.name}</h1>
               <button
@@ -116,7 +117,7 @@ const DetailsPage = (props) => {
                     data.vote_average,
                     data.release_date || data.first_air_date,
                     data.backdrop_path
-                  );
+                  ).then(() => fetchBookmarks());
                 }}
               >
                 <i
@@ -232,6 +233,7 @@ const DetailsPage = (props) => {
               <p>{data.overview}</p>
             </div>
           </div>
+          <Comments />
         </div>
       </div>
       <Slider
