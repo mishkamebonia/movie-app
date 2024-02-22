@@ -1,7 +1,4 @@
-import { useState, useRef } from "react";
 import { useAuthContext } from "../providers/auth";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { storage } from "../config/firebase";
 
 const Profile = () => {
   const { user } = useAuthContext();
@@ -15,7 +12,12 @@ const Profile = () => {
       <img
         src={`${user?.photoURL}`}
         alt=""
-        style={{ width: "300px", height: "300px", background: "red" }}
+        style={{
+          width: "300px",
+          height: "300px",
+          background: "red",
+          objectFit: "cover",
+        }}
       />
     </div>
   );
