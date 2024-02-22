@@ -22,11 +22,11 @@ const Page: React.FC<DetailPage> = (props) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const pageNumber = parseInt(searchParams.get("page") || "1");
   const query = searchParams.get("query") || "";
+  const navigate = useNavigate();
 
   const [bookmarkedMovies, fetchBookmarks] = useFetchBookmarks();
 
