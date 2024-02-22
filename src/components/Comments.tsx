@@ -1,36 +1,48 @@
-import { useAuthContext } from "../providers/auth";
-import "../scss/images.scss";
 import "../scss/comments.scss";
+import "../scss/images.scss";
+import { useAuthContext } from "../providers/auth";
+import { useState } from "react";
+import { collection, docs, doc } from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const Comments = () => {
   const { user } = useAuthContext();
+  const [allComments, setAllComments] = useState([]);
+  const [createComment, setCreateComment] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(clicked);
+    try {
+      setAllComments([createComment, ...allComments]);
+      setCreateComment("");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div className="commentsSection">
+      <h1>Comments</h1>
       <div className="create-comment">
-        <div className="row">
-          <img src={`${user?.photoURL}`} alt="" className="profile-img" />
-          <h4>{user?.displayName}</h4>
-        </div>
         <form action="" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="comment-input"
-            placeholder="write comment"
-          />
+          <div className="row">
+            <img src={`${user?.photoURL}`} alt="" className="profile-img" />
+            <input
+              type="text"
+              className="input"
+              placeholder="write comment"
+              value={createComment}
+              onChange={(e) => setCreateComment(e.target.value)}
+            />
+          </div>
           <button className="button">Send</button>
         </form>
       </div>
       <div className="all-comments">
-        <p>12312312</p>
-        <p>12312312</p>
-        <p>12312312</p>
+        {allComments.map((comment, index) => (
+          <p key={index}>{comment}</p>
+        ))}
       </div>
     </div>
   );
