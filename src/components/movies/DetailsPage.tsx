@@ -92,9 +92,9 @@ const DetailsPage = (props) => {
               src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
               alt=""
             />
-            {/* <div className="trailer">
+            <div className="trailer">
               {trailerKey && <YouTube videoId={trailerKey} opts={opts} />}
-            </div> */}
+            </div>
           </div>
           <div className="description">
             <div className="headline-row">
@@ -242,7 +242,7 @@ const DetailsPage = (props) => {
         url={routes.movies}
         slides="4"
         image="backdrop"
-        autoplay={true}
+        // autoplay={true}
       />
     </main>
   );
