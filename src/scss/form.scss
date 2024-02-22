@@ -70,3 +70,19 @@
     margin-left: 9px;
   }
 }
+
+.comment-input {
+  resize: none;
+  outline: none;
+  padding: 15px;
+  font-size: 15px;
+  background: transparent;
+  border: 1px solid $red;
+  border-radius: 6px;
+  color: $pureWhite;
+
+  &::placeholder {
+    opacity: 0.5;
+    color: $pureWhite;
+  }
+}
