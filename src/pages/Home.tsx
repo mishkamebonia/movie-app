@@ -1,10 +1,12 @@
+import "../scss/search.scss";
+import "../scss/input.scss";
 import * as React from "react";
+import { FormEvent } from "react";
 import Content from "../components/Content";
 import { searchMovieAndSeriesApi } from "../config/movieApi";
 import Loader from "../components/Loader";
-import { Button, Backdrop } from "@mui/material";
-import "../scss/search.scss";
-import "../scss/input.scss";
+import { Backdrop } from "@mui/material";
+import { Movie } from "../@types";
 
 const Home = () => {
   const [datas, setDatas] = React.useState([]);
@@ -18,7 +20,7 @@ const Home = () => {
     setOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     fetch(`${searchMovieAndSeriesApi}?query=${query}`)
