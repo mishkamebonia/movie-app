@@ -208,11 +208,11 @@ const DetailsPage = (props) => {
               <>
                 <p>
                   <span>Budget:</span>
-                  {data.budget}
+                  {parseInt(data.budget).toLocaleString()} $
                 </p>
                 <p>
                   <span>Revenue:</span>
-                  {data.revenue}
+                  {parseInt(data.revenue).toLocaleString()} $
                 </p>
               </>
             ) : null}
