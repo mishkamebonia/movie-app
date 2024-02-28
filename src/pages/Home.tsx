@@ -4,9 +4,10 @@ import * as React from "react";
 import { FormEvent } from "react";
 import Content from "../components/Content";
 import { searchMovieAndSeriesApi } from "../config/movieApi";
-import Loader from "../components/Loader";
 import { Backdrop } from "@mui/material";
 import { Movie } from "../@types";
+// import Loader from "../components/Loader";
+// import { Movie } from "../@types";
 
 const Home = () => {
   const [datas, setDatas] = React.useState([]);
@@ -50,7 +51,7 @@ const Home = () => {
           >
             <div className="search-module">
               <div className="row">
-                {datas.map((data) => (
+                {datas.map((data: Movie) => (
                   <div className="card">{data.title}</div>
                 ))}
               </div>
