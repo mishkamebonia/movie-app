@@ -2,8 +2,8 @@ import "../scss/comments.scss";
 import "../scss/images.scss";
 import { useAuthContext } from "../providers/auth";
 import { useState } from "react";
-import { collection, docs, doc } from "firebase/firestore";
-import { db } from "../config/firebase";
+// import { collection, docs, doc } from "firebase/firestore";
+// import { db } from "../config/firebase";
 
 const Comments = () => {
   const { user } = useAuthContext();
