@@ -43,3 +43,12 @@ export type MovieResponse<T> = {
   total_pages: number,
   total_results: number
 }
+
+// export interface SignUpTypes {
+//   name: string;
+//   email: string;
+//   password: string;
+//   repeatPassword: string;
+//   image: File | null;
+//   imageUrl: File | null;
+// }
