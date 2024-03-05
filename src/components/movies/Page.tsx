@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../Search";
 import { Pagination } from "@mui/material";
-import Loader from "../Loader";
+// import Loader from "../Loader";
 import { Skeleton } from "@mui/material";
 import noImage from "../../assets/no-image.jpeg";
 import "../../scss/pagitation.scss";
