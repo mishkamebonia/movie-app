@@ -14,15 +14,19 @@ import StarIcon from "@mui/icons-material/Star";
 import { useFetchBookmarks } from "../../queries/useFetchBookmarks";
 
 SwiperCore.use([Navigation, A11y]);
-
+const modules = [Navigation, A11y, Autoplay];
+const opts = { delay: 3000, disableOnInteraction: false };
 const Slider = (props) => {
   const { dataApi, title, url, slides, image, autoplay } = props;
+
+  console.log("slider rerendered", url);
+
   const { user } = useAuthContext();
 
   const [dataList, setDataList] = useState([]);
   const [swiperInstance, setSwiperInstance] = useState(null);
 
-  const [bookmarkedMovies, fetchBookmarks] = useFetchBookmarks();
+  // const [bookmarkedMovies, fetchBookmarks] = useFetchBookmarks();
 
   const getData = () => {
     fetch(dataApi)
@@ -37,9 +41,7 @@ const Slider = (props) => {
   }, []);
 
   function isBookmarked(id) {
-    return bookmarkedMovies.some(
-      (bookmarkedMovie) => bookmarkedMovie.movieId === id
-    );
+    return [].some((bookmarkedMovie) => bookmarkedMovie.movieId === id);
   }
 
   return (
@@ -60,13 +62,11 @@ const Slider = (props) => {
         </div>
       </div>
       <Swiper
-        modules={[Navigation, A11y, Autoplay]}
+        modules={modules}
         spaceBetween={20}
         slidesPerView={slides}
         navigation={false}
-        autoplay={
-          autoplay ? { delay: 3000, disableOnInteraction: false } : false
-        }
+        autoplay={autoplay ? opts : false}
         onSwiper={setSwiperInstance}
       >
         {dataList.map((data) =>
@@ -103,7 +103,7 @@ const Slider = (props) => {
                       data.vote_average,
                       data.release_date || data.first_air_date,
                       data.backdrop_path
-                    ).then(() => fetchBookmarks());
+                    );
                   }}
                 >
                   <i
