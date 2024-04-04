@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { movieApi, seriesApi, newMoviesUrl } from "../config/movieApi";
 import Slider from "./movies/Slider";
 import "./Content.scss";
@@ -33,4 +34,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default memo(Content);
