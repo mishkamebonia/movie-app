@@ -19,15 +19,14 @@ const DetailsPage = (props) => {
   const { url, videoUrl, route, placeholder, type } = props;
   const { movieId, seriesId } = useParams();
   const { user } = useAuthContext();
-
   const [data, setData] = useState(null);
   const [bookmarkedData, fetchBookmarks] = useFetchBookmarks();
   const [trailerKey, setTrailerKey] = useState(null);
   const [opts, setOpts] = useState({ height: "480", width: "854" });
   const navigate = useNavigate();
+  const id = movieId || seriesId;
 
   useEffect(() => {
-    const id = movieId || seriesId;
     if (!id) return;
 
     fetch(`${url}${id}?api_key=${apiKey}`)
@@ -49,7 +48,7 @@ const DetailsPage = (props) => {
       top: 0,
       behavior: "smooth",
     });
-  }, [movieId, seriesId]);
+  }, [id]);
 
   useEffect(() => {
     function handleResize() {
@@ -233,7 +232,7 @@ const DetailsPage = (props) => {
               <p>{data.overview}</p>
             </div>
           </div>
-          <Comments />
+          <Comments movieId={movieId} seriesId={seriesId} />
         </div>
       </div>
       <Slider
