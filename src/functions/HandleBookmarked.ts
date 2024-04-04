@@ -1,10 +1,12 @@
 import { deleteDoc, doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
+
 const bookmarked = async (uid, type, movieId, title, imdb, date, poster) => {
   try {
     const docRef = doc(db, "usersBookmarked", `${uid}_${movieId}`);
     const docSnapshot = await getDoc(docRef);
+
 
     if (docSnapshot.exists()) {
       await deleteDoc(docRef);
