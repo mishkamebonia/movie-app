@@ -10,7 +10,7 @@ const MoviePage = () => {
       apiSearch={searchMovieApi}
       placeholder="Search for movies"
       pageUrl={routes.movies}
-    ></Page>
+    />
   );
 };
 export default MoviePage;
