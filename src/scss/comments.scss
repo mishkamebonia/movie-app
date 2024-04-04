@@ -1,5 +1,12 @@
 @import "./colors.scss";
 
+@mixin image() {
+  width: 51px;
+  height: 51px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
 .commentsSection {
   margin-top: 50px;
 
@@ -22,8 +29,7 @@
   }
 
   img {
-    width: 51px;
-    height: 51px;
+    @include image();
   }
 
   input {
@@ -40,5 +46,20 @@
 .all-comments {
   border: 1px solid $red;
   border-radius: 20px;
-  padding: 20px;
+  padding: 20px 20px 0 20px;
+}
+
+.comments {
+  margin-bottom: 20px;
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    img {
+      @include image();
+    }
+  }
 }
