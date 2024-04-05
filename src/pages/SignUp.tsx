@@ -11,7 +11,7 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import userImg from "../assets/user.png";
 
 const signUp = () => {
-  const { signUp } = useAuthContext();
+  const { signUp, user } = useAuthContext();
   const navigate = useNavigate();
 
   const [name, setName] = useState<string>("");
@@ -30,10 +30,11 @@ const signUp = () => {
       // Sign up the user
       if (name !== "" && password === repeatPassword && image !== null) {
         await signUp(email, password);
+        const user = auth.currentUser;
 
-        // Create a unique image name
-        const date = new Date().getTime();
-        const imageRef = ref(storage, `profile_images/${email + date}`);
+        if (!user) return;
+
+        const imageRef = ref(storage, `profile_images/${user.uid}`);
 
         // Upload the image to Firebase Storage
         await uploadBytes(imageRef, image);
@@ -42,13 +43,20 @@ const signUp = () => {
         const imageURL = await getDownloadURL(imageRef);
 
         // Update user profile with name and photoURL
-        const user = auth.currentUser;
         await updateProfile(user, {
           displayName: name,
           photoURL: imageURL,
         });
 
         // Add user data to Firestore
+
+        console.log({
+          uid: user.uid,
+          displayName: name,
+          email: email,
+          photoURL: imageURL,
+        });
+
         await setDoc(doc(db, "users", user.uid), {
           uid: user.uid,
           displayName: name,
