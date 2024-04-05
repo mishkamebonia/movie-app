@@ -14,15 +14,15 @@ import Profile from "./pages/Profile";
 
 const repoPrefix = "/movie-app";
 export const routes = {
-  home: "/movie-app" + "/",
-  movies: "/movie-app" + "/movies/",
-  moviesId: "/movie-app" + "/movies/:movieId",
-  series: "/movie-app" + "/series/",
-  seriesId: "/movie-app" + "/series/:seriesId",
-  bookmarked: "/movie-app" + "/bookmarked/",
-  login: "/movie-app" + "/login/",
-  signUp: "/movie-app" + "/signUp/",
-  profile: "/movie-app" + "/profile/",
+  home: repoPrefix + "/",
+  movies: repoPrefix + "/movies/",
+  moviesId: repoPrefix + "/movies/:movieId",
+  series: repoPrefix + "/series/",
+  seriesId: repoPrefix + "/series/:seriesId",
+  bookmarked: repoPrefix + "/bookmarked/",
+  login: repoPrefix + "/login/",
+  signUp: repoPrefix + "/signUp/",
+  profile: repoPrefix + "/profile/",
 };
 
 function App() {
