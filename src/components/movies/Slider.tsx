@@ -19,8 +19,6 @@ const opts = { delay: 3000, disableOnInteraction: false };
 const Slider = (props) => {
   const { dataApi, title, url, slides, image, autoplay } = props;
 
-  console.log("slider rerendered", url);
-
   const { user } = useAuthContext();
 
   const [dataList, setDataList] = useState([]);
