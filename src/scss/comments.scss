@@ -62,4 +62,10 @@
       @include image();
     }
   }
+
+  p {
+    background: $semiDarkBlue;
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
 }
