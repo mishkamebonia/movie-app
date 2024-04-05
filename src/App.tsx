@@ -1,6 +1,6 @@
 import "./App.scss";
 import SideBar from "./components/SideBar";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import MoviesPage from "./pages/MoviesPage";
 import SeriesPage from "./pages/SeriesPage";
@@ -12,22 +12,20 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 
-const repoPrefix = "/movie-app";
 export const routes = {
-  home: repoPrefix + "/",
-  movies: repoPrefix + "/movies/",
-  moviesId: repoPrefix + "/movies/:movieId",
-  series: repoPrefix + "/series/",
-  seriesId: repoPrefix + "/series/:seriesId",
-  bookmarked: repoPrefix + "/bookmarked/",
-  login: repoPrefix + "/login/",
-  signUp: repoPrefix + "/signUp/",
-  profile: repoPrefix + "/profile/",
+  home: "/",
+  movies: "/movies/",
+  moviesId: "/movies/:movieId",
+  series: "/series/",
+  seriesId: "/series/:seriesId",
+  bookmarked: "/bookmarked/",
+  login: "/login/",
+  signUp: "/signUp/",
+  profile: "/profile/",
 };
 
 function App() {
   const { user } = useAuthContext();
-  console.log(user);
 
   return (
     <Router>
