@@ -25,13 +25,11 @@ type Comment = {
 const Comments = (props) => {
   const { movieId, seriesId } = props;
 
-  console.log("rerendered");
   const { user } = useAuthContext();
   const [allComments, setAllComments] = useState<Comment[]>([]);
   const [createComment, setCreateComment] = useState("");
 
   const getComments = useCallback(async () => {
-    console.log({ movieId, seriesId });
     const commentsQuery = query(
       commnetsRef,
       where("movieId", "==", movieId || seriesId),
