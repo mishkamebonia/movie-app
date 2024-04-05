@@ -12,16 +12,17 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 
+const repoPrefix = "/movie-app";
 export const routes = {
-  home: "/",
-  movies: "/movies/",
-  moviesId: "/movies/:movieId",
-  series: "/series/",
-  seriesId: "/series/:seriesId",
-  bookmarked: "/bookmarked/",
-  login: "/login/",
-  signUp: "/signUp/",
-  profile: "/profile/",
+  home: "/movie-app" + "/",
+  movies: "/movie-app" + "/movies/",
+  moviesId: "/movie-app" + "/movies/:movieId",
+  series: "/movie-app" + "/series/",
+  seriesId: "/movie-app" + "/series/:seriesId",
+  bookmarked: "/movie-app" + "/bookmarked/",
+  login: "/movie-app" + "/login/",
+  signUp: "/movie-app" + "/signUp/",
+  profile: "/movie-app" + "/profile/",
 };
 
 function App() {
