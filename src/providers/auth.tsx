@@ -9,7 +9,7 @@ import {
 
 interface AuthContextType {
   user: null | User;
-  // signUp: (email: string, password: string) => void;
+  signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => void;
   logOut: VoidFunction;
 }
@@ -44,18 +44,14 @@ export function AuthContextProvider({ children }: Props) {
       });
   };
 
-  const signUp = (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setUser(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-      });
+  const signUp = async (email: string, password: string) => {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    setUser(user);
   };
 
   const logOut = () => {
